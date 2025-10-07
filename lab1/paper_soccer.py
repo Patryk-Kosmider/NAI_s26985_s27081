@@ -2,7 +2,30 @@ from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
 
 # TODO: Trzeba spisac autorow, zasady, instrukcje przygotowania do uruchomienia
 
-# TODO: Ogarnąć strzelanie goli - gol tylko jeśli piła jest na środku pierwszego/ostatniego rzędu - to dziala, ale X jest nad kropka oznaczajaca bramke. Moze jakos inaczej sformulowac ta tabele? By wygladala bardziej jak na kurniku xd.
+"""
+Autorzy:
+- Patryk Kosmider
+- Ziemowit Orlikowski
+
+Cel:
+Celem gry jest doprowadzenie pilki na do bramki(x) przeciwnika.
+Gracz moze zwyciezyc na dwa sposoby:
+- strzelenie bramki przeciwnikowi
+- zablokowanie przeciwnika tak ze nie ma mozliwosci wykonania zadnego ruchu
+
+Zasady:
+- Kazdy gracz wykonuje jeden ruch na ture w dowolnym kierunku (lewy gorny, gorny, prawy gorny, lewo, prawo, lewy dolny, prawy dolny, dol)
+- Nie mozna stawac na polu na ktorym juz byla pilka
+
+Przygotowanie do uruchomienia - wymagania:
+
+Srodowisko z Pythonem (Testowne na wersji 3.12)
+Instalacja pakietu easyAI:
+
+- pip install easyAI
+"""
+
+# TODO: DONE Ogarnąć strzelanie goli - gol tylko jeśli piła jest na środku pierwszego/ostatniego rzędu - to dziala, ale X jest nad kropka oznaczajaca bramke. Moze jakos inaczej sformulowac ta tabele? By wygladala bardziej jak na kurniku xd.
 
 DIRECTIONS = {
     "q": (-1, -1),  # lewy górny
@@ -15,7 +38,18 @@ DIRECTIONS = {
     "c": (1, 1),    # prawy dolny
 }
 
-#TODO: Słownik z ruchami, ale mapowanie na rysowanie linii - np. '\': (-1, -1), albo q: '\', zależy jak lepiej.
+CHARS_MAPPING = {
+    "q": "\\",  # lewy górny
+    "w": "|",  # góra
+    "e": "/",  # prawy górny
+    "a": "-",  # lewo
+    "d": "-",  # prawo
+    "z": "/",  # lewy dolny
+    "x": "|",  # dół
+    "c": "\\",  # prawy dolny
+}
+
+#TODO: DONE Słownik z ruchami, ale mapowanie na rysowanie linii - np. '\': (-1, -1), albo q: '\', zależy jak lepiej.
 
 class PaperSoccer(TwoPlayerGame):
     def __init__(self, players):
@@ -25,7 +59,7 @@ class PaperSoccer(TwoPlayerGame):
         :return: None
         """
         self.players = players
-        self.rows = 7
+        self.rows = 9
         self.cols = 7
         self.ball_start = (self.rows // 2, self.cols // 2)
         self.ball = self.ball_start
@@ -54,6 +88,7 @@ class PaperSoccer(TwoPlayerGame):
             self.show()
             return
         dr, dc = DIRECTIONS[move]
+        move_char = CHARS_MAPPING[move]
         new_r = self.ball[0] + dr
         new_c = self.ball[1] + dc
         start = self.ball
@@ -72,7 +107,12 @@ class PaperSoccer(TwoPlayerGame):
             self.show()
             return
 
-        self.moves.append(moving)
+        if (new_r == 0 or new_r == self.rows - 1) and new_c != self.cols // 2:
+            print("Nie możesz wejść do bramki z boku! Tylko środek (x) jest otwarty.")
+            self.show()
+            return
+
+        self.moves.append((moving, move_char))
         self.ball = end
         self.current_player = 3 - self.current_player
 
@@ -88,6 +128,8 @@ class PaperSoccer(TwoPlayerGame):
             start = self.ball
             end = (new_r, new_c)
             moving = (start, end)
+            if (new_r == 0 or new_r == self.rows - 1) and new_c != self.cols // 2:
+                continue
             if 0 <= new_r < self.rows and 0 <= new_c < self.cols:
                 if moving not in self.moves and (end, start) not in self.moves:
                     moves.append(move)
@@ -95,6 +137,7 @@ class PaperSoccer(TwoPlayerGame):
 
     def scoring(self):
         # TODO: Heurestyka dla AI, jaki ruch ma wybrac, np. odleglosc do bramki przeciwnika. Wazne zeby ogarnac ze na bramke przeciwnika ma isc xd
+
         pass
 
     def show(self):
@@ -102,21 +145,30 @@ class PaperSoccer(TwoPlayerGame):
         """
         field_width = self.cols * 2 + 1
         pad = " " * 2
-
-        goal_line = pad + " " * (field_width // 2) + "x"
-
-        # TODO: Rysowanie linii - wykonanych ruchow, najlepiej z '-', '|', '/' i '\'. W tablicy move maja byc zapisane ruchy wiec trzeba je przejsc i narysowac linie.
-
-        print(goal_line)
-        for r in range(self.rows):
+        goal = "|x|"
+        goal_line = pad + "-" * (field_width // 2 - 1) + goal + "-" * (field_width // 2 - 1)
+        # TODO: DONE Rysowanie linii - wykonanych ruchow, najlepiej z '-', '|', '/' i '\'. W tablicy move maja byc zapisane ruchy wiec trzeba je przejsc i narysowac linie.
+        board = []
+        for i in range(self.rows):
             row = []
-            for c in range(self.cols):
-                if (r, c) == self.ball:
-                    row.append("o")
-                else:
-                    row.append(".")
-            print(pad + "|" + " ".join(row) + "|")
-        print(goal_line)
+            for _ in range(self.cols):
+                row.append(".")
+            board.append(row)
+
+        for ((start, end), char) in self.moves:
+            r1, c1 = start
+            r2, c2 = end
+            board[r1][c1] = char
+            board[r2][c2] = char
+
+        br, bc = self.ball
+        board[br][bc] = "o"
+
+        for r in range(self.rows):
+            if r == 0 or r == self.rows-1:
+                print(goal_line)
+                continue
+            print(pad + "|" + " ".join(board[r]) + "|")
 
 if __name__ == "__main__":
 
