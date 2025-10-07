@@ -1,6 +1,6 @@
 from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
-
-# TODO: Trzeba spisac autorow, zasady, instrukcje przygotowania do uruchomienia
+import math
+# TODO: DONE? Trzeba spisac autorow, zasady, instrukcje przygotowania do uruchomienia
 
 """
 Autorzy:
@@ -67,6 +67,8 @@ class PaperSoccer(TwoPlayerGame):
         self.goal_top = (0, self.cols // 2)
         self.goal_bottom = (self.rows - 1, self.cols // 2)
         self.moves = []
+        self.char_list = []
+        self.blocked_position = []
 
     def is_over(self):
         if self.ball == self.goal_top:
@@ -112,10 +114,11 @@ class PaperSoccer(TwoPlayerGame):
             self.show()
             return
 
-        self.moves.append((moving, move_char))
+        self.moves.append(moving)
+        self.char_list.append((start, move_char))
+        self.blocked_position.append(start)
         self.ball = end
         self.current_player = 3 - self.current_player
-
     def possible_moves(self):
         """
         Zwraca listę możliwych ruchów z aktualnej pozycji piłki.
@@ -128,17 +131,29 @@ class PaperSoccer(TwoPlayerGame):
             start = self.ball
             end = (new_r, new_c)
             moving = (start, end)
+
+            # Sprawdzenie bramki
             if (new_r == 0 or new_r == self.rows - 1) and new_c != self.cols // 2:
                 continue
-            if 0 <= new_r < self.rows and 0 <= new_c < self.cols:
-                if moving not in self.moves and (end, start) not in self.moves:
-                    moves.append(move)
+            # Sprawdzenie granic boiska
+            if new_r < 0 or new_r >= self.rows or new_c < 0 or new_c >= self.cols:
+                continue
+            # Sprawdzanie czy dane miejsce bylo juz uzyte
+            if end in self.blocked_position:
+                continue
+
+            moves.append(move)
         return moves
 
     def scoring(self):
-        # TODO: Heurestyka dla AI, jaki ruch ma wybrac, np. odleglosc do bramki przeciwnika. Wazne zeby ogarnac ze na bramke przeciwnika ma isc xd
+        # TODO: DONE? Heurestyka dla AI, jaki ruch ma wybrac, np. odleglosc do bramki przeciwnika. Wazne zeby ogarnac ze na bramke przeciwnika ma isc xd
+        br, bc = self.ball
+        # euklides do gornej
+        dist_to_bottom_goal = math.sqrt((br - (self.goal_bottom[0] - 1))**2 + (bc - (self.goal_bottom[1] // 2))**2)
+        # euklides do dolnej
+        dist_to_top_goal = math.sqrt((br - (self.goal_top[0] + 1))**2 + (bc - (self.goal_top[1] // 2))**2)
 
-        pass
+        return dist_to_bottom_goal - dist_to_top_goal
 
     def show(self):
         """
@@ -155,11 +170,9 @@ class PaperSoccer(TwoPlayerGame):
                 row.append(".")
             board.append(row)
 
-        for ((start, end), char) in self.moves:
+        for (start, char) in self.char_list:
             r1, c1 = start
-            r2, c2 = end
             board[r1][c1] = char
-            board[r2][c2] = char
 
         br, bc = self.ball
         board[br][bc] = "o"
@@ -173,12 +186,23 @@ class PaperSoccer(TwoPlayerGame):
 if __name__ == "__main__":
 
     game = PaperSoccer([Human_Player(), AI_Player(Negamax(3))])
-    game.play()
-
-    if game.ball == game.goal_top:
-        print("Wygrał gracz!")
-    elif game.ball == game.goal_bottom:
-        print("Wygrało AI!")
-    else:
-        winner = 3 - game.current_player
-        print(f"Brak możliwych ruchów! Wygrał gracz {winner}!")
+    while True:
+        # Zamiast game.play() robimy pętlę, żeby móc wyświetlać planszę i komunikaty
+        game.show()
+        moves = game.possible_moves()
+        if game.ball == game.goal_top:
+            print("Wygrał gracz!")
+            break
+        elif game.ball == game.goal_bottom:
+            print("Wygrało AI!")
+            break
+        elif not moves:
+            print("Brak możliwych ruchów! Wygrał gracz", 3 - game.current_player, "!")
+            break
+        print("Możliwe ruchy:", moves)
+        if game.current_player == 1:
+            move = input("Player 1 what do you play? ")
+        else:
+            move = game.players[1].ask_move(game)
+            print(f"AI wybrało ruch: {move}")
+        game.make_move(move)
