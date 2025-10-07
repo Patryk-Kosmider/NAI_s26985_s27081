@@ -1,6 +1,5 @@
 from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
 import math
-# TODO: DONE? Trzeba spisac autorow, zasady, instrukcje przygotowania do uruchomienia
 
 """
 Autorzy:
@@ -25,17 +24,16 @@ Instalacja pakietu easyAI:
 - pip install easyAI
 """
 
-# TODO: DONE Ogarnąć strzelanie goli - gol tylko jeśli piła jest na środku pierwszego/ostatniego rzędu - to dziala, ale X jest nad kropka oznaczajaca bramke. Moze jakos inaczej sformulowac ta tabele? By wygladala bardziej jak na kurniku xd.
 
 DIRECTIONS = {
     "q": (-1, -1),  # lewy górny
-    "w": (-1, 0),   # góra
-    "e": (-1, 1),   # prawy górny
-    "a": (0, -1),   # lewo
-    "d": (0, 1),    # prawo
-    "z": (1, -1),   # lewy dolny
-    "x": (1, 0),    # dół
-    "c": (1, 1),    # prawy dolny
+    "w": (-1, 0),  # góra
+    "e": (-1, 1),  # prawy górny
+    "a": (0, -1),  # lewo
+    "d": (0, 1),  # prawo
+    "z": (1, -1),  # lewy dolny
+    "x": (1, 0),  # dół
+    "c": (1, 1),  # prawy dolny
 }
 
 CHARS_MAPPING = {
@@ -49,7 +47,6 @@ CHARS_MAPPING = {
     "c": "\\",  # prawy dolny
 }
 
-#TODO: DONE Słownik z ruchami, ale mapowanie na rysowanie linii - np. '\': (-1, -1), albo q: '\', zależy jak lepiej.
 
 class PaperSoccer(TwoPlayerGame):
     def __init__(self, players):
@@ -86,7 +83,9 @@ class PaperSoccer(TwoPlayerGame):
         :return: None
         """
         if move not in DIRECTIONS:
-            print("Nieprawidłowy kierunek ruchu. Dostępne ruchy:", list(DIRECTIONS.keys()))
+            print(
+                "Nieprawidłowy kierunek ruchu. Dostępne ruchy:", list(DIRECTIONS.keys())
+            )
             self.show()
             return
         dr, dc = DIRECTIONS[move]
@@ -94,7 +93,9 @@ class PaperSoccer(TwoPlayerGame):
         new_r = self.ball[0] + dr
         new_c = self.ball[1] + dc
         start = self.ball
+        # nowa pozycja piłki po ruchu
         end = (new_r, new_c)
+        # ruch jako para współrzędnych
         moving = (start, end)
 
         if not (0 <= new_r < self.rows and 0 <= new_c < self.cols):
@@ -119,6 +120,7 @@ class PaperSoccer(TwoPlayerGame):
         self.blocked_position.append(start)
         self.ball = end
         self.current_player = 3 - self.current_player
+
     def possible_moves(self):
         """
         Zwraca listę możliwych ruchów z aktualnej pozycji piłki.
@@ -128,9 +130,7 @@ class PaperSoccer(TwoPlayerGame):
         for move, (dr, dc) in DIRECTIONS.items():
             new_r = self.ball[0] + dr
             new_c = self.ball[1] + dc
-            start = self.ball
             end = (new_r, new_c)
-            moving = (start, end)
 
             # Sprawdzenie bramki
             if (new_r == 0 or new_r == self.rows - 1) and new_c != self.cols // 2:
@@ -146,23 +146,33 @@ class PaperSoccer(TwoPlayerGame):
         return moves
 
     def scoring(self):
-        # TODO: DONE? Heurestyka dla AI, jaki ruch ma wybrac, np. odleglosc do bramki przeciwnika. Wazne zeby ogarnac ze na bramke przeciwnika ma isc xd
+        # pozycja piłki
         br, bc = self.ball
-        # euklides do gornej
-        dist_to_bottom_goal = math.sqrt((br - (self.goal_bottom[0] - 1))**2 + (bc - (self.goal_bottom[1] // 2))**2)
+        # euklides do górnej
+        dist_to_bottom_goal = math.sqrt(
+            (br - (self.goal_bottom[0] - 1)) ** 2
+            + (bc - (self.goal_bottom[1] // 2)) ** 2
+        )
         # euklides do dolnej
-        dist_to_top_goal = math.sqrt((br - (self.goal_top[0] + 1))**2 + (bc - (self.goal_top[1] // 2))**2)
-
+        dist_to_top_goal = math.sqrt(
+            (br - (self.goal_top[0] + 1)) ** 2 + (bc - (self.goal_top[1] // 2)) ** 2
+        )
+        # Heurystyka:
+        # Zwracamy różnicę: (odległość do dolnej) - (odległość do górnej)
+        # Dzięki temu przykładowo:
+        # - piłka w pozycji bliżej AI (górna bramka) - scoring ujemny - AI gra w dół by maksymalizować
+        # - piłka w pozycji bliżej gracza (dolna bramka) - scoring dodatni - AI unika góry
+        # - piłka na środku - scoring bliski 0 - AI nie faworyzuje żadnej strony
         return dist_to_bottom_goal - dist_to_top_goal
 
     def show(self):
-        """
-        """
+        """ """
         field_width = self.cols * 2 + 1
         pad = " " * 2
         goal = "|x|"
-        goal_line = pad + "-" * (field_width // 2 - 1) + goal + "-" * (field_width // 2 - 1)
-        # TODO: DONE Rysowanie linii - wykonanych ruchow, najlepiej z '-', '|', '/' i '\'. W tablicy move maja byc zapisane ruchy wiec trzeba je przejsc i narysowac linie.
+        goal_line = (
+            pad + "-" * (field_width // 2 - 1) + goal + "-" * (field_width // 2 - 1)
+        )
         board = []
         for i in range(self.rows):
             row = []
@@ -170,7 +180,7 @@ class PaperSoccer(TwoPlayerGame):
                 row.append(".")
             board.append(row)
 
-        for (start, char) in self.char_list:
+        for start, char in self.char_list:
             r1, c1 = start
             board[r1][c1] = char
 
@@ -178,10 +188,11 @@ class PaperSoccer(TwoPlayerGame):
         board[br][bc] = "o"
 
         for r in range(self.rows):
-            if r == 0 or r == self.rows-1:
+            if r == 0 or r == self.rows - 1:
                 print(goal_line)
                 continue
             print(pad + "|" + " ".join(board[r]) + "|")
+
 
 if __name__ == "__main__":
 
