@@ -73,13 +73,10 @@ class PaperSoccer(TwoPlayerGame):
         :return: True/False
         """
         if self.ball == self.goal_top:
-            print("Wygrał gracz!")
             return True
         if self.ball == self.goal_bottom:
-            print("Wygrało AI!")
             return True
         if not self.possible_moves():
-            print("Brak możliwych ruchów! Wygrał gracz", 3 - game.current_player, "!")
             return True
         return False
 
@@ -205,7 +202,7 @@ class PaperSoccer(TwoPlayerGame):
 
 if __name__ == "__main__":
 
-    game = PaperSoccer([Human_Player(), AI_Player(Negamax(3))])
+    game = PaperSoccer([Human_Player(), AI_Player(Negamax(10))])
     while True:
         # Zamiast game.play() robimy pętlę, żeby móc wyświetlać planszę i komunikaty
         game.show()
