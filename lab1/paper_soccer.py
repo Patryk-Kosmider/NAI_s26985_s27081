@@ -219,4 +219,11 @@ if __name__ == "__main__":
         game.make_move(move)
         if game.is_over():
             game.show()
+            if game.ball == game.goal_top:
+                print("Wygrał gracz!")
+            elif game.ball == game.goal_bottom:
+                print("Wygrało AI!")
+            else:
+                print("Brak możliwych ruchów! Wygrał gracz", 3 - game.current_player, "!")
             break
+           
