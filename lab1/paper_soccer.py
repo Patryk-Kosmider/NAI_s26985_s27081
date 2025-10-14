@@ -73,13 +73,10 @@ class PaperSoccer(TwoPlayerGame):
         :return: True/False
         """
         if self.ball == self.goal_top:
-            print("Wygrał gracz!")
             return True
         if self.ball == self.goal_bottom:
-            print("Wygrało AI!")
             return True
         if not self.possible_moves():
-            print("Brak możliwych ruchów! Wygrał gracz", 3 - game.current_player, "!")
             return True
         return False
 
@@ -219,4 +216,10 @@ if __name__ == "__main__":
         game.make_move(move)
         if game.is_over():
             game.show()
+            if game.ball == game.goal_top:
+                print("Wygrał gracz!")
+            elif game.ball == game.goal_bottom:
+                print("Wygrało AI!")
+            else:
+                print("Brak możliwych ruchów! Wygrał gracz", 3 - game.current_player, "!")
             break
