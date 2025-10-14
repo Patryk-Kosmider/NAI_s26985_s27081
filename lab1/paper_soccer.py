@@ -202,7 +202,7 @@ class PaperSoccer(TwoPlayerGame):
 
 if __name__ == "__main__":
 
-    game = PaperSoccer([Human_Player(), AI_Player(Negamax(10))])
+    game = PaperSoccer([Human_Player(), AI_Player(Negamax(3))])
     while True:
         # Zamiast game.play() robimy pętlę, żeby móc wyświetlać planszę i komunikaty
         game.show()
