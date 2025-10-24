@@ -9,7 +9,7 @@ from skfuzzy import control as ctrl
 
 # zmienne wejsciowe
 distance = ctrl.Antecedent(np.arange(0, 151, 1), "distance")
-relative_speed = ctrl.Antecedent(np.arange(-50, 101, 1), "relative_speed")
+speed = ctrl.Antecedent(np.arange(-50, 101, 1), "relative_speed")
 friction = ctrl.Antecedent(np.arange(0, 1.01, 0.01), "friction")
 
 # zmienna wyjsciowe
@@ -20,9 +20,9 @@ distance["close"] = fuzz.trimf(distance.universe, [0, 0, 75])
 distance["medium"] = fuzz.trimf(distance.universe, [25, 75, 125])
 distance["far"] = fuzz.trimf(distance.universe, [75, 150, 150])
 
-relative_speed["low"] = fuzz.trimf(relative_speed.universe, [-50, -50, 25])
-relative_speed["medium"] = fuzz.trimf(relative_speed.universe, [0, 25, 75])
-relative_speed["high"] = fuzz.trimf(relative_speed.universe, [50, 100, 100])
+speed["low"] = fuzz.trimf(speed.universe, [0, 0, 20])
+speed["medium"] = fuzz.trimf(speed.universe, [0, 20, 40])
+speed["high"] = fuzz.trimf(speed.universe, [20, 40, 40])
 
 friction["low"] = fuzz.trimf(friction.universe, [0.0, 0.0, 0.5])
 friction["medium"] = fuzz.trimf(friction.universe, [0.25, 0.5, 0.75])
@@ -34,18 +34,18 @@ braking_force["strong"] = fuzz.trimf(braking_force.universe, [0.5, 1.0, 1.0])
 
 # reguly
 rule1 = ctrl.Rule(
-    distance["close"] & relative_speed["high"] & friction["low"],
+    distance["close"] & speed["high"] & friction["low"],
     braking_force["strong"],
 )
 rule2 = ctrl.Rule(
-    distance["close"] & relative_speed["medium"] & friction["medium"],
+    distance["close"] & speed["medium"] & friction["medium"],
     braking_force["moderate"],
 )
 rule3 = ctrl.Rule(
-    distance["medium"] & relative_speed["medium"] & friction["high"],
+    distance["medium"] & speed["medium"] & friction["high"],
     braking_force["light"],
 )
-rule4 = ctrl.Rule(distance["far"] | relative_speed["low"], braking_force["light"])
+rule4 = ctrl.Rule(distance["far"] | speed["low"], braking_force["light"])
 
 # system sterowania
 braking_control_system = ctrl.ControlSystem([rule1, rule2, rule3, rule4])
@@ -83,8 +83,8 @@ def membership_functions():
 
     plt.subplot(2, 2, 2)
     plt.title("Prędkość względna - funkcja członkostwa")
-    for label in relative_speed.terms:
-        plt.plot(relative_speed.universe, relative_speed[label].mf, label=label)
+    for label in speed.terms:
+        plt.plot(speed.universe, speed[label].mf, label=label)
     plt.legend()
 
     plt.subplot(2, 2, 3)
