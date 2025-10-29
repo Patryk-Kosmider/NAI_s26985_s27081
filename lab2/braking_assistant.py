@@ -57,6 +57,7 @@ frame_counter = 0
 target_speed = lead_speed
 state = "setup"  # setup / sim
 
+
 def road_color_from_friction(f):
     """
     Zwraca kolor nawierzchni zależny od tarcia (ciemniejsza = mniejsze tarcie)
@@ -108,6 +109,7 @@ def draw_hud():
         f"Prędkość auta przed nami: {lead_speed:.1f} m/s",
         f"Tarcie: {friction_val:.2f}",
         f"Asystent hamowania: {'ON' if assistant_active else 'OFF'}",
+        f"Siła hamowania: {brake_force:.2f}",
     ]
     for i, line in enumerate(lines):
         txt = font.render(line, True, BLACK)
@@ -200,7 +202,7 @@ while running:
         ]
         for i, line in enumerate(inst_lines):
             txt = font.render(line, True, BLACK)
-            screen.blit(txt, (40, HEIGHT - 110 + i * 20))
+            screen.blit(txt, (40, HEIGHT - 150 + i * 20))
         pygame.display.flip()
         continue
 
