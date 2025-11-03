@@ -53,6 +53,7 @@ lead_speed = 25.0
 friction_val = 0.6
 brake_force = 0.0
 assistant_active = False
+collided = False
 
 # sprite samochodow
 car_blue = pygame.image.load("pixel_car_blue.png").convert_alpha()
@@ -99,11 +100,7 @@ def draw_car(x, color, brake_force=0.0):
     :param brake_force: siła hamowania (jako pasek nad autem)
     :return: None
     """
-    if color == RED:
-        sprite = car_red
-    else:
-        sprite = car_blue
-
+    sprite = car_red if color == RED else car_blue
     screen.blit(sprite, (int(x), GROUND_Y - CAR_H + 20))
 
     if brake_force > 0:
@@ -126,6 +123,9 @@ def draw_hud():
         f"Tarcie: {friction_val:.2f}",
         f"Asystent hamowania: {'ON' if assistant_active else 'OFF'}",
         f"Siła hamowania: {brake_force:.2f}",
+        f"Stan symulacji: {state}",
+        f"Kolizja: {'TAK' if collided else 'NIE'}",
+        "Klawisze: A/D - Tarcie, Enter-start, R-reset",
     ]
     for i, line in enumerate(lines):
         txt = font.render(line, True, BLACK)
@@ -138,7 +138,7 @@ def reset_sim():
     :return: None
     """
     global my_speed, lead_speed, distance_m, friction_val
-    global my_x, lead_x, assistant_active, brake_force, frame_counter, target_speed, state
+    global my_x, lead_x, assistant_active, brake_force, frame_counter, target_speed, state, collided
     my_speed = 20.0
     lead_speed = 25.0
     distance_m = 30.0
@@ -150,6 +150,7 @@ def reset_sim():
     frame_counter = 0
     target_speed = lead_speed
     state = "setup"
+    collided = False
 
 
 # Pętla główna
@@ -197,6 +198,19 @@ while running:
         scroll -= 5
         if abs(scroll) > bg_width:
             scroll = 0
+
+    if collided:
+        pygame.draw.rect(
+            screen,
+            road_color_from_friction(friction_val),
+            (0, GROUND_Y, WIDTH, HEIGHT - GROUND_Y),
+        )
+        offset_x = max(my_x - 150, 0)
+        draw_car(lead_x - offset_x, RED)
+        draw_car(my_x - offset_x, BLUE, brake_force=1.0)
+        draw_hud()
+        pygame.display.update()
+        continue
 
     # Sterowanie niebieskim autem (losowe, płynne zmiany prędkości)
     if frame_counter % 60 == 0:
@@ -246,6 +260,7 @@ while running:
         my_speed = 0
         lead_speed = 0
         brake_force = 1.0
+        colided = True
         print("Kolizja!")
 
     # Rysowanie sceny

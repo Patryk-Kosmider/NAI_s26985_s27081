@@ -17,6 +17,9 @@ distance["close"] = fuzz.trimf(distance.universe, [0, 20, 30])
 distance["medium"] = fuzz.trimf(distance.universe, [20, 40, 60])
 distance["far"] = fuzz.trimf(distance.universe, [50, 100, 200])  # rozszerzone
 
+speed["negative"] = fuzz.trimf(
+    speed.universe, [-50, -25, 0]
+)  # wolniejsi od auta na przedzie
 speed["low"] = fuzz.trimf(speed.universe, [0, 0, 20])
 speed["medium"] = fuzz.trimf(speed.universe, [10, 25, 50])
 speed["high"] = fuzz.trimf(speed.universe, [30, 60, 100])  # rozszerzone
@@ -32,8 +35,13 @@ braking_force["strong"] = fuzz.trimf(braking_force.universe, [0.5, 1.0, 1.0])
 # Reguły
 rules = [
     ctrl.Rule(distance["close"] & speed["high"], braking_force["strong"]),
-    ctrl.Rule(distance["close"] & speed["medium"] & friction["low"], braking_force["strong"]),
-    ctrl.Rule(distance["close"] & speed["medium"] & (friction["medium"] | friction["high"]), braking_force["strong"]),
+    ctrl.Rule(
+        distance["close"] & speed["medium"] & friction["low"], braking_force["strong"]
+    ),
+    ctrl.Rule(
+        distance["close"] & speed["medium"] & (friction["medium"] | friction["high"]),
+        braking_force["strong"],
+    ),
     ctrl.Rule(distance["close"] & friction["low"], braking_force["strong"]),
     ctrl.Rule(distance["close"] & friction["high"], braking_force["moderate"]),
     ctrl.Rule(distance["medium"] & speed["high"], braking_force["moderate"]),
@@ -42,16 +50,18 @@ rules = [
     ctrl.Rule(distance["far"] & speed["low"], braking_force["light"]),
     ctrl.Rule(distance["far"] & speed["medium"], braking_force["light"]),
     ctrl.Rule(distance["far"] & speed["high"], braking_force["moderate"]),
-    ctrl.Rule(distance["close"] & speed["high"] & friction["high"], braking_force["strong"]),
+    ctrl.Rule(
+        distance["close"] & speed["high"] & friction["high"], braking_force["strong"]
+    ),
+    ctrl.Rule(speed["negative"], braking_force["light"]),
 ]
 
 # System sterowania
 braking_control_system = ctrl.ControlSystem(rules)
-braking_simulation = ctrl.ControlSystemSimulation(braking_control_system)
+
 
 #  Funkcja obliczania hamowania
 def calculate_braking_force(dist, rel_speed, fric):
-
     """
     Oblicza siłę hamowania na podstawie podanych parametrów wejściowych.
     :param dist: funkcja przynależności dla odległości
@@ -65,6 +75,7 @@ def calculate_braking_force(dist, rel_speed, fric):
     fric = max(0.0, min(1.0, fric))
 
     try:
+        braking_simulation = ctrl.ControlSystemSimulation(braking_control_system)
         braking_simulation.input["distance"] = dist
         braking_simulation.input["relative_speed"] = rel_speed
         braking_simulation.input["friction"] = fric
@@ -72,7 +83,6 @@ def calculate_braking_force(dist, rel_speed, fric):
         val = braking_simulation.output.get("braking_force", 0.0)
     except:
         val = 0.0
-
 
     return max(0.0, min(1.0, val))
 
@@ -117,8 +127,9 @@ def membership_functions(dist, rel_speed, fric):
 
     plt.tight_layout()
     plt.show()
-    braking_force.view(sim=braking_simulation)
+    braking_force.view(sim=ctrl.ControlSystemSimulation(braking_control_system))
     plt.show()
+
 
 if __name__ == "__main__":
     sys.exit(0)
