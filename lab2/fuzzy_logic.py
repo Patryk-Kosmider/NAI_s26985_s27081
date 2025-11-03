@@ -13,9 +13,9 @@ friction = ctrl.Antecedent(np.arange(0, 1.01, 0.01), "friction")
 braking_force = ctrl.Consequent(np.arange(0, 1.01, 0.01), "braking_force")
 
 # Funkcje przynależności
-distance["close"] = fuzz.trimf(distance.universe, [0, 0, 50])
-distance["medium"] = fuzz.trimf(distance.universe, [30, 60, 100])
-distance["far"] = fuzz.trimf(distance.universe, [80, 200, 200])  # rozszerzone
+distance["close"] = fuzz.trimf(distance.universe, [0, 20, 30])
+distance["medium"] = fuzz.trimf(distance.universe, [20, 40, 60])
+distance["far"] = fuzz.trimf(distance.universe, [50, 100, 200])  # rozszerzone
 
 speed["low"] = fuzz.trimf(speed.universe, [0, 0, 20])
 speed["medium"] = fuzz.trimf(speed.universe, [10, 25, 50])

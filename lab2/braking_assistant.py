@@ -18,9 +18,8 @@ Instalacja pakietów:
 
 """
 
-# TODO: umieścić gdzieś rysowanie tych wykresów z fuzzy?
-
 import sys
+import math
 import pygame
 import random
 from fuzzy_logic import calculate_braking_force
@@ -28,19 +27,24 @@ from fuzzy_logic import calculate_braking_force
 pygame.init()
 
 # ustawienia pygame
-WIDTH, HEIGHT = 1200, 500
+WIDTH, HEIGHT = 600, 500
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Fuzzy logic - symulator hamowania")
 clock = pygame.time.Clock()
-CAR_W, CAR_H = 70, 40
+CAR_W, CAR_H = 90, 50
 GROUND_Y = HEIGHT // 2 + 60
 PIXELS_PER_M = 5.0
 MAX_SPEED = 50.0
-WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (40, 120, 220)
 RED = (200, 30, 30)
 font = pygame.font.SysFont("arial", 18)
+
+# ustawienia tla
+bg = pygame.image.load("bg.jpg").convert()
+bg_width = bg.get_width()
+tiles = math.ceil(WIDTH / bg_width) + 1
+scroll = 0
 
 # zmienne stany
 distance_m = 30.0
@@ -49,6 +53,13 @@ lead_speed = 25.0
 friction_val = 0.6
 brake_force = 0.0
 assistant_active = False
+
+# sprite samochodow
+car_blue = pygame.image.load("pixel_car_blue.png").convert_alpha()
+car_red = pygame.image.load("pixel_car_red.png").convert_alpha()
+
+car_blue = pygame.transform.scale(car_blue, (CAR_W, CAR_H))
+car_red = pygame.transform.scale(car_red, (CAR_W, CAR_H))
 
 my_x = 100
 lead_x = my_x + (distance_m + 5) * PIXELS_PER_M + CAR_W
@@ -88,8 +99,13 @@ def draw_car(x, color, brake_force=0.0):
     :param brake_force: siła hamowania (jako pasek nad autem)
     :return: None
     """
-    pygame.draw.rect(screen, color, (int(x), GROUND_Y - CAR_H, CAR_W, CAR_H))
-    pygame.draw.rect(screen, BLACK, (int(x), GROUND_Y - CAR_H, CAR_W, CAR_H), 2)
+    if color == RED:
+        sprite = car_red
+    else:
+        sprite = car_blue
+
+    screen.blit(sprite, (int(x), GROUND_Y - CAR_H + 20))
+
     if brake_force > 0:
         bar_width = int(CAR_W * brake_force)
         bar_color = (255 * brake_force, 255 * (1 - brake_force), 0)
@@ -151,38 +167,17 @@ while running:
                 running = False
             if event.key == pygame.K_r:
                 reset_sim()
-
-            # Tryb konfiguracji symulacji
-            if state == "setup":
-                if event.key == pygame.K_RETURN:
-                    state = "sim"
-                elif event.key == pygame.K_LEFT:
-                    distance_m = max(5.0, distance_m - 1.0)
-                elif event.key == pygame.K_RIGHT:
-                    distance_m += 1.0
-                elif event.key == pygame.K_w:
-                    my_speed = min(MAX_SPEED, my_speed + 1.0)
-                elif event.key == pygame.K_s:
-                    my_speed = max(0.0, my_speed - 1.0)
-                elif event.key == pygame.K_UP:
-                    lead_speed = min(MAX_SPEED, lead_speed + 1.0)
-                elif event.key == pygame.K_DOWN:
-                    lead_speed = max(0.0, lead_speed - 1.0)
-                elif event.key == pygame.K_a:
-                    friction_val = max(0.0, round(friction_val - 0.05, 2))
-                elif event.key == pygame.K_d:
-                    friction_val = min(1.0, round(friction_val + 0.05, 2))
-
-            # Sterowanie w trakcie symulacji
-            elif state == "sim":
-                if event.key == pygame.K_w:
-                    my_speed = min(MAX_SPEED, my_speed + 2.0)
-                elif event.key == pygame.K_s:
-                    my_speed = max(0.0, my_speed - 2.0)
+            if event.key == pygame.K_RETURN:
+                state = "sim"
+            # mozliwosc ustawienia stanu nawierzchni (tarcia)
+            elif event.key == pygame.K_a:
+                friction_val = max(0.0, round(friction_val - 0.05, 2))
+            elif event.key == pygame.K_d:
+                friction_val = min(1.0, round(friction_val + 0.05, 2))
 
     # Symulacja - rysowanie stanu początkowego
     if state == "setup":
-        screen.fill(WHITE)
+        screen.blit(bg, (0, 0))
         pygame.draw.rect(
             screen,
             road_color_from_friction(friction_val),
@@ -191,26 +186,23 @@ while running:
         draw_car(my_x, BLUE)
         draw_car(lead_x, RED)
         draw_hud()
-        inst_lines = [
-            "Tryb konfiguracji:",
-            "←/→ – ustaw dystans",
-            "W/S – początkowa prędkość naszego auta",
-            "↑/↓ – początkowa prędkość auta przed nami",
-            "A/D – tarcie nawierzchni",
-            "ENTER – Start symulacji | ESC – Wyjście",
-            "M – wyświetl wykresy fuzzy logic",
-        ]
-        for i, line in enumerate(inst_lines):
-            txt = font.render(line, True, BLACK)
-            screen.blit(txt, (40, HEIGHT - 150 + i * 20))
         pygame.display.flip()
         continue
 
-    # Sterowanie czerwonym autem (losowe, płynne zmiany prędkości)
+    # generowanie ruchomego tla
+    elif state == "sim":
+        for i in range(0, tiles):
+            screen.blit(bg, (i * bg_width + scroll, 0))
+        # przesuwanie tla
+        scroll -= 5
+        if abs(scroll) > bg_width:
+            scroll = 0
+
+    # Sterowanie niebieskim autem (losowe, płynne zmiany prędkości)
     if frame_counter % 60 == 0:
         # Co 60 klatek losujemy nową docelową predkość dla samochodu przed nami
-        target_speed = random.uniform(0, MAX_SPEED)
-    # Maksymalne przyśpieszenie i opóźnienie samochodu przed nami = 5 m/s, 8 m/s, ograniczamy by nie hamowało 50->0
+        target_speed = random.uniform(1, MAX_SPEED)
+    # Maksymalne przyśpieszenie i opóźnienie samochodu przed nami = 8 m/s, ograniczamy by nie hamowało 50->0
     MAX_LEAD_ACC = 5.0
     MAX_LEAD_DEC = 8.0
     # Jeśli aktualna prędkość jest mniejsza od docelowej -> przyśpieszamy
@@ -232,7 +224,7 @@ while running:
     # Uruchomienie asystenta hamowania
     rel_speed = my_speed - lead_speed
     brake_force = 0.0
-    if distance_m < 30 or rel_speed > 0:
+    if distance_m < 50 or rel_speed > 0:
         brake_force = calculate_braking_force(distance_m, rel_speed, friction_val)
         # Przyspieszenie hamowania = wynik fuzzy logic * wpsolczynnik tarcia
         decel = braking_deceleration(brake_force, friction_val)
@@ -241,7 +233,7 @@ while running:
         my_speed = max(0.0, my_speed)
         assistant_active = True
     else:
-        if distance_m > 35:
+        if distance_m > 50:
             my_speed += 5.0 * dt
             my_speed = min(MAX_SPEED, my_speed)
         assistant_active = False
@@ -258,7 +250,6 @@ while running:
 
     # Rysowanie sceny
     offset_x = max(my_x - 150, 0)
-    screen.fill(WHITE)
     pygame.draw.rect(
         screen,
         road_color_from_friction(friction_val),
@@ -268,7 +259,7 @@ while running:
     draw_car(my_x - offset_x, BLUE, brake_force)
     draw_hud()
 
-    pygame.display.flip()
+    pygame.display.update()
 
 pygame.quit()
 sys.exit(0)
