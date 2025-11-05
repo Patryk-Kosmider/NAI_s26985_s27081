@@ -260,7 +260,7 @@ while running:
         my_speed = 0
         lead_speed = 0
         brake_force = 1.0
-        colided = True
+        collided = True
         print("Kolizja!")
 
     # Rysowanie sceny
