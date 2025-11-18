@@ -1,10 +1,30 @@
-import argparse
+"""
+Autorzy:
+- Patryk Kośmider
+- Ziemowit Orlikowski
 
+System rekomendacji filmów
+
+System ma za zadanie podać 5 rekomedanicji i anyrekomendacji filmowych dla danego użytkownika (użytkownik musi być w bazie danych).
+Rekomendacje są wybierane na podstawie wpisów użytkownika do bazy danych i porównywana z wpisami innych użytkowników. Definiowana jest
+grupa ankietowanych z podobnymi preferencjami filmowymi i wyświetlane są filmy, których jeszcze nie widzieliśmy. Prócz tego algorytm
+wciąga dodatkowe informacje dot. rekomendowanych filmów.
+Użytkownik musi podać swoje imię i nazwisko w argumencie --user w formacie: jan_kowalski. Przykładowe wywołanie: pytohn movie_recommender.py --user jan_kowalski.
+
+Przygotowanie do uruchomienia - wymagania:
+
+Instalacja pakietów:
+  pip install pandas scikit-fuzzy unidecode
+
+"""
+
+import argparse
+import requests
 import pandas as pd
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import KMeans
 from prepare_data import prepare_data
 
-
+API_KEY = "90d0e92c"
 def load_data():
     """
     Ładuje i przygotowuje dane do analizy rekomendacji filmów.
@@ -22,7 +42,7 @@ def load_data():
     print(pivot)
     return data, pivot
 
-def cluster_users(pivot, n_clusters=6):
+def cluster_users(pivot, n_clusters=4):
     """
     Grupuje użytkowników na podstawie ich ocen filmów za pomocą KMeans.
     :param pivot: Pivotowana macierz użytkownik-film
@@ -38,8 +58,8 @@ def cluster_users(pivot, n_clusters=6):
     print(X.isna().sum().sum())  # ile NaN pozostało
 
     # Tworzenie obiektu AgglomerativeClustering i dopasowanie do danych
-    agglo = AgglomerativeClustering(n_clusters=n_clusters, linkage='complete')
-    labels = agglo.fit_predict(X)
+    kmeans = KMeans(n_clusters=n_clusters, random_state=0)
+    labels = kmeans.fit_predict(X)
 
     # Klaster dla każdego użytkownika w formacie DataFrame
     user_cluster = pd.DataFrame({'user': X.index, 'cluster': labels})
@@ -102,34 +122,29 @@ def anti_recommend_movies(df, user_cluster, target_user, n_recommendations=5):
 
     return anti_recommended_movies['movie'].tolist()
 
-def cluster_user_info(pivot, user_cluster, target_user):
+def get_movie_info(movie):
     """
-    Wyświetla informacje o klastrze użytkownika docelowego oraz podobieństwo do innych użytkowników w klastrze.
-    :param pivot: Standardowa macierz użytkownik-film
-    :param user_cluster: Klastery użytkowników
-    :param target_user: Klaster docelowy
-    :return: None
+    Wyciągnięcie dodatkowych informacji dot. filmu
+    :param movie: Tytuł filmu
+    :return: Lista dodatkowych informacji o filmie
     """
-    print(user_cluster['user'].tolist())
-    print("Szukany użytkownik:", target_user)
 
-    target_cluster = user_cluster[user_cluster['user'] == target_user]['cluster'].values[0]
-    cluster_members = user_cluster[user_cluster['cluster'] == target_cluster]['user'].tolist()
-    cluster_members.remove(target_user)
+    url = "http://www.omdbapi.com/"
+    params = {
+        "t": movie,
+        "apikey": API_KEY
+    }
+    response = requests.get(url, params=params)
 
-    print(f"Użytkownik {target_user} należy do klastra {target_cluster}, z którego członkami są:) {cluster_members}")
+    if response.status_code != 200:
+        print("Błąd połączenia", response.text)
 
-    corr_matrix = pivot.T.corr(method='pearson')
-    similarity_df = pd.DataFrame({
-        'user': cluster_members,
-        'similarity_percent': (corr_matrix.loc[target_user, cluster_members] * 100).round(2)
-    }).sort_values(by='similarity_percent', ascending=False)
+    data = response.json()
 
-    print("\nPodobieństwo do pozostałych użytkowników w klastrze:")
-    for _, row in similarity_df.iterrows():
-        print(f"- {row['user']}: {row['similarity_percent']}%")
+    if data.get("Response") == "False":
+        return {'Title': "None", 'Year': "None", "Genre": "None"}
 
-
+    return data
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Movie Recommendation System")
@@ -139,13 +154,14 @@ if __name__ == "__main__":
 
     df, pivot = load_data()
     user_cluster = cluster_users(pivot, n_clusters=5)
-    cluster_user_info(pivot, user_cluster, target_user)
     recs = recommend_movies(df, user_cluster, target_user, n_recommendations=5)
     anti_recs = anti_recommend_movies(df, user_cluster, target_user, n_recommendations=5)
 
     print(f"\nRekomendowane filmy dla użytkownika {target_user}:")
     for movie in recs:
-        print(f"- {movie}")
+        movie_info = get_movie_info(movie)
+        print(f"- {movie}, rok produkcji: {movie_info['Year']}, gatunek: {movie_info['Genre']}")
     print(f"\nAnty-rekomendowane filmy dla użytkownika {target_user}:")
     for movie in anti_recs:
-        print(f"- {movie}")
+        movie_info = get_movie_info(movie)
+        print(f"- {movie}, rok produkcji: {movie_info['Year']}, gatunek: {movie_info['Genre']}")

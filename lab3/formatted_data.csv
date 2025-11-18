@@ -1,14 +1,14 @@
 user,movie,rating
 pawel_czapiewski,1670,9.0
-pawel_czapiewski,Jak sprzedawać dragi w sieci (szybko),8.0
-pawel_czapiewski,Samce Alfa,9.0
-pawel_czapiewski,Lucyfer,3.0
-pawel_czapiewski,Niebieskoki Samuraj,9.0
-pawel_czapiewski,Barbarzyńcy,9.0
-pawel_czapiewski,Para Idealna,7.0
+pawel_czapiewski,How to Sell Drugs Online (Fast),8.0
+pawel_czapiewski,Alpha Males,9.0
+pawel_czapiewski,Lucifer,3.0
+pawel_czapiewski,Blue Eye Samurai,9.0
+pawel_czapiewski,Barbarian,9.0
+pawel_czapiewski,The Perfect Couple,7.0
 pawel_czapiewski,Rojst,8.0
 pawel_czapiewski,Polowanie na Czerwony Październik,10.0
-pawel_czapiewski,7,10.0
+pawel_czapiewski,Se7en,10.0
 pawel_czapiewski,The Big Bang Theory,8.0
 pawel_czapiewski,Braveheart,10.0
 pawel_czapiewski,The Expanse,7.0
@@ -93,7 +93,7 @@ tomasz_wakor,Wściekłe psy,7.0
 tomasz_wakor,Pulp fiction,8.0
 tomasz_wakor,Pewnego razu w Hollywood,7.0
 tomasz_wakor,13 Kamer,3.0
-tomasz_wakor,wiedźmin,6.0
+tomasz_wakor,Wiedźmin,6.0
 tomasz_wakor,Miasteczko South Park,9.0
 tomasz_wakor,duchy inisherin,3.0
 tomasz_wakor,gattaca,9.0
@@ -126,7 +126,7 @@ tomasz_wakor,Pamiętniki wampirów,9.0
 tomasz_wakor,The originals,9.0
 patryk_kosmider,Incepcja,10.0
 patryk_kosmider,Interstellar,10.0
-patryk_kosmider,Wilk z wall street,9.0
+patryk_kosmider,Wilk z Wall Street,9.0
 patryk_kosmider,Bękarty wojny,10.0
 patryk_kosmider,Django,10.0
 patryk_kosmider,Nienawistna ósemka,7.0
@@ -144,7 +144,7 @@ patryk_kosmider,John Wick,8.0
 patryk_kosmider,Pulp Fiction,8.0
 patryk_kosmider,Oppenheimer,8.0
 patryk_kosmider,Fight Club,9.0
-patryk_kosmider,Siedem,10.0
+patryk_kosmider,Se7en,10.0
 patryk_kosmider,Tenet,5.0
 patryk_kosmider,Fargo,7.0
 patryk_kosmider,Loteria,4.0
@@ -215,7 +215,7 @@ oskar_skomra,Stranger Things,4.0
 oskar_skomra,The Office,10.0
 oskar_skomra,House of Cards,8.0
 oskar_skomra,Władca Pierścieni,3.0
-oskar_skomra,Wilk z Wolf Street,8.0
+oskar_skomra,Wilk z Wall Street,8.0
 oskar_skomra,Split,2.0
 oskar_skomra,Irlandczyk,2.0
 oskar_skomra,Incepcja,9.0
@@ -246,7 +246,7 @@ fabian_fetter,Piętro wyżej,9.0
 fabian_fetter,La casa de papel,7.0
 fabian_fetter,Rick & Morty,9.0
 fabian_fetter,Władca pierścieni,5.0
-fabian_fetter,Siedem,4.0
+fabian_fetter,Se7en,4.0
 fabian_fetter,Życie jest piękne,9.0
 fabian_fetter,Nietykalni,6.0
 fabian_fetter,Nic śmiesznego,5.0
@@ -282,12 +282,12 @@ michal_bedra,Dzień Świra,9.0
 michal_bedra,Diamentowa Afera,8.0
 michal_bedra,Bad Boys,8.0
 michal_bedra,Gra o tron,9.0
-michal_bedra,Siedem dusz,6.0
+michal_bedra,Se7en dusz,6.0
 michal_bedra,South Park,8.0
 michal_bedra,Gran Torino,10.0
 michal_bedra,Odlot,8.0
 michal_bedra,Dziennik Bridget Jones,8.0
-michal_bedra,7( siedem),9.0
+michal_bedra,Se7en,9.0
 michal_bedra,Więzień nienawiści,8.0
 michal_bedra,Salt,6.0
 michal_bedra,Pulp Fiction,10.0
@@ -322,7 +322,7 @@ michal_bedra,Kraina Lodu,7.0
 michal_bedra,Gladiator,9.0
 michal_bedra,Ostatni samuraj,8.0
 michal_bedra,Breaveheart,8.0
-szymon_anikiej,Siedem,10.0
+szymon_anikiej,Se7en,10.0
 szymon_anikiej,Incepcja,10.0
 szymon_anikiej,Prestiż,10.0
 szymon_anikiej,Deadpool & Wolverine,5.0
@@ -366,7 +366,7 @@ szymon_anikiej,Pingwin z madagaskaru,9.0
 konrad_fijalkowski,It,2.0
 konrad_fijalkowski,Chappie,8.0
 konrad_fijalkowski,Nosferatu,2.0
-konrad_fijalkowski,Wilk z wall street,7.0
+konrad_fijalkowski,Wilk z Wall Street,7.0
 konrad_fijalkowski,Battleship: Bitwa o Ziemię,9.0
 konrad_fijalkowski,Gran Torino,7.0
 konrad_fijalkowski,Django,9.0
@@ -403,7 +403,7 @@ konrad_fijalkowski,Symetria,7.0
 ziemowit_orlikowski,Interstellar,10.0
 ziemowit_orlikowski,Silos,8.0
 ziemowit_orlikowski,Silicon Valley,9.0
-ziemowit_orlikowski,Wiedżmin,2.0
+ziemowit_orlikowski,Wiedźmin,2.0
 ziemowit_orlikowski,F1,7.0
 ziemowit_orlikowski,Preacher,7.0
 ziemowit_orlikowski,Pułapka,6.0
@@ -411,7 +411,7 @@ ziemowit_orlikowski,Shrek,10.0
 ziemowit_orlikowski,Arcane,4.0
 ziemowit_orlikowski,Kompania braci,9.0
 ziemowit_orlikowski,Titanic,2.0
-ziemowit_orlikowski,"Zabić, jak to łatwo powiedzieć",7.0
+ziemowit_orlikowski,jak to łatwo powiedzieć,7.0
 ziemowit_orlikowski,Dżentelmeni,8.0
 ziemowit_orlikowski,Obecność 4,3.0
 ziemowit_orlikowski,Amerykańscy bogowie,5.0
@@ -421,11 +421,11 @@ ziemowit_orlikowski,Dom pełen dynamitu,6.0
 ziemowit_orlikowski,Narcos,9.0
 ziemowit_orlikowski,Deadpool,7.0
 ziemowit_orlikowski,Mr. Robot,7.0
-ziemowit_orlikowski,Blader Runner 2049,3.0
+ziemowit_orlikowski,Blade Runner 2049,3.0
 ziemowit_orlikowski,Andor,9.0
 ziemowit_orlikowski,Diuna,7.0
 ziemowit_orlikowski,Edukacja XD,7.0
-ziemowit_orlikowski,1670,8.0
+ziemowit_orlikowski,1670.0,8.0
 ziemowit_orlikowski,Fanatyk,9.0
 ziemowit_orlikowski,Free guy,3.0
 ziemowit_orlikowski,Casino Royale,10.0
@@ -439,7 +439,7 @@ ziemowit_orlikowski,Bosh,8.0
 ziemowit_orlikowski,Luther,5.0
 ziemowit_orlikowski,The Boys,9.0
 ziemowit_orlikowski,Dobry Omen,6.0
-ziemowit_orlikowski,Ślepnąc od świateł,9.0
+ziemowit_orlikowski,Blinded by the Lights,9.0
 ziemowit_orlikowski,Grawitacja,3.0
 filip_patula,Incepcja,10.0
 filip_patula,Skazani na Showshank,10.0
@@ -469,7 +469,7 @@ filip_patula,American Pie,7.0
 filip_patula,Dwunastu gniewnych ludzi,8.0
 filip_patula,Titanic,7.0
 filip_patula,Obcy - 8 pasażer Nostromo,7.0
-filip_patula,Siedem,9.0
+filip_patula,Se7en,9.0
 filip_patula,Asterix i Obelix: Misja Kleopatra,7.0
 filip_patula,W lesie dziś nie zaśnie nikt,4.0
 filip_patula,Diuna,8.0
@@ -494,7 +494,7 @@ marek_jenczyk,Fight Club,10.0
 marek_jenczyk,Arcane,9.0
 marek_jenczyk,Za duży na bajki,8.0
 marek_jenczyk,Incepcja,9.0
-marek_jenczyk,Wilk z wallstreet,8.0
+marek_jenczyk,Wilk z Wall Street,8.0
 marek_jenczyk,Odlot,8.0
 marek_jenczyk,La Mans '66,9.0
 marek_jenczyk,Pulp Fiction,8.0
@@ -531,7 +531,7 @@ jakub_skarzynski,Exit 8,2.0
 jakub_skarzynski,Furia,9.0
 jakub_skarzynski,Sand Castle,7.0
 jakub_skarzynski,Wróg u bram,8.0
-jakub_skarzynski,Dom z papieru,6.0
+jakub_skarzynski,La Casa De Papel,6.0
 jakub_skarzynski,Król lew,10.0
 jakub_skarzynski,Madagaskar,10.0
 jakub_skarzynski,Interstellar,9.0
@@ -543,8 +543,8 @@ jakub_skarzynski,Halloween,6.0
 jakub_skarzynski,Wiedźmin,7.0
 jakub_skarzynski,Furioza,3.0
 jakub_skarzynski,Deadpool & Wolverine,9.0
-jakub_skarzynski,Kraina lodu,7.0
-jakub_skarzynski,Wilk z Wallstreet,9.0
+jakub_skarzynski,Kraina Lodu,7.0
+jakub_skarzynski,Wilk z Wall Street,9.0
 jakub_skarzynski,Zielona mila,6.0
 jakub_skarzynski,Titanic,8.0
 jakub_skarzynski,Arcane,8.0
