@@ -1,0 +1,566 @@
+user,movie,rating
+pawel_czapiewski,1670,9.0
+pawel_czapiewski,How to Sell Drugs Online (Fast),8.0
+pawel_czapiewski,Alpha Males,9.0
+pawel_czapiewski,Lucifer,3.0
+pawel_czapiewski,Blue Eye Samurai,9.0
+pawel_czapiewski,Barbarian,9.0
+pawel_czapiewski,The Perfect Couple,7.0
+pawel_czapiewski,Rojst,8.0
+pawel_czapiewski,Polowanie na Czerwony Październik,10.0
+pawel_czapiewski,Se7en,10.0
+pawel_czapiewski,The Big Bang Theory,8.0
+pawel_czapiewski,Braveheart,10.0
+pawel_czapiewski,The Expanse,7.0
+pawel_czapiewski,Miasteczko South Park,9.0
+pawel_czapiewski,Kraina Lodu,5.0
+pawel_czapiewski,Dziennik Bridget Jones,6.0
+pawel_czapiewski,Kapitan Ameryka: Wojna bohaterów,3.0
+pawel_czapiewski,Avengers: Czas Ultrona,2.0
+pawel_czapiewski,Terminator 2,9.0
+pawel_czapiewski,Planeta Singli,7.0
+pawel_czapiewski,List do M.,7.0
+pawel_czapiewski,List do M. 2,2.0
+pawel_czapiewski,Forrest Gump,10.0
+pawel_czapiewski,Ex Machina,10.0
+pawel_czapiewski,Gran Torino,9.0
+pawel_czapiewski,Cicha Noc,1.0
+pawel_czapiewski,Battleship: Bitwa o Ziemię,1.0
+pawel_czapiewski,Narodziny Gwiazdy,2.0
+pawel_czapiewski,Kapitan Phillips,9.0
+pawel_czapiewski,Grand Budapest Hotel,9.0
+pawel_czapiewski,Wyjazd integracyjny,1.0
+pawel_czapiewski,John Wick,7.0
+pawel_czapiewski,Narcos,10.0
+pawel_czapiewski,Terminal,8.0
+pawel_czapiewski,Ona,8.0
+pawel_czapiewski,Whiplash,10.0
+pawel_czapiewski,Diabeł ubiera się u Prady,9.0
+pawel_czapiewski,La Casa De Papel,8.0
+pawel_czapiewski,Peaky Blinders,9.0
+pawel_czapiewski,Contratiempo,9.0
+pawel_czapiewski,La Cara Oculta,10.0
+mateusz_andrzejak,Casino (1996),8.0
+mateusz_andrzejak,La Haine,10.0
+mateusz_andrzejak,Deadpool & Wolverine,6.0
+mateusz_andrzejak,Diabel (1972),8.0
+mateusz_andrzejak,Chappie,5.0
+mateusz_andrzejak,American Psycho 2,3.0
+mateusz_andrzejak,The Vourdalak,2.0
+mateusz_andrzejak,Mr. & Mrs. Smith,2.0
+mateusz_andrzejak,Sin City,6.0
+mateusz_andrzejak,Fantastic Four (2015),1.0
+mateusz_andrzejak,Midsommar,9.0
+mateusz_andrzejak,The Italian Job,8.0
+mateusz_andrzejak,The Great Gatsby,8.0
+mateusz_andrzejak,Final Destination,4.0
+mateusz_andrzejak,Ballerina,8.0
+mateusz_andrzejak,Mulholland Drive,7.0
+mateusz_andrzejak,Bufallo '66,10.0
+mateusz_andrzejak,Adaptation,8.0
+mateusz_andrzejak,Gran Torino,10.0
+mateusz_andrzejak,Fear and Loathing in Las Vegas,10.0
+mateusz_andrzejak,The Simpsons Movie,6.0
+mateusz_andrzejak,Shutter Island,7.0
+mateusz_andrzejak,Swiat wedlug kiepskich,10.0
+mateusz_andrzejak,Blade Runner 2049,2.0
+mateusz_andrzejak,The Room,3.0
+mateusz_andrzejak,Zodiak,3.0
+mateusz_andrzejak,Kac Vegas,8.0
+mateusz_andrzejak,Mis,8.0
+mateusz_andrzejak,John Wick,8.0
+mateusz_andrzejak,Mr Robot,9.0
+mateusz_andrzejak,Taxi,8.0
+mateusz_andrzejak,Apokawixa,1.0
+mateusz_andrzejak,Titanic,2.0
+mateusz_andrzejak,Kac Wawa,1.0
+mateusz_andrzejak,Listy do M,1.0
+mateusz_andrzejak,Tesciowie,8.0
+mateusz_andrzejak,Kapitan Bomba Zemsta Faraona,8.0
+mateusz_andrzejak,Skyfall,6.0
+mateusz_andrzejak,Casino Royale,4.0
+mateusz_andrzejak,8 mile,4.0
+mateusz_andrzejak,Straight outta Compton,7.0
+tomasz_wakor,Narcos,10.0
+tomasz_wakor,Wikingowie,9.0
+tomasz_wakor,Gra o tron,9.0
+tomasz_wakor,Lucyfer,8.0
+tomasz_wakor,M jak miłość,5.0
+tomasz_wakor,Bękarty wojny,10.0
+tomasz_wakor,Django,9.0
+tomasz_wakor,Nienawistna ósemka,8.0
+tomasz_wakor,Wściekłe psy,7.0
+tomasz_wakor,Pulp fiction,8.0
+tomasz_wakor,Pewnego razu w Hollywood,7.0
+tomasz_wakor,13 Kamer,3.0
+tomasz_wakor,Wiedźmin,6.0
+tomasz_wakor,Miasteczko South Park,9.0
+tomasz_wakor,duchy inisherin,3.0
+tomasz_wakor,gattaca,9.0
+tomasz_wakor,Ford v Ferrari,9.0
+tomasz_wakor,Interstellar,8.0
+tomasz_wakor,Incepcja,8.0
+tomasz_wakor,Oppenheimer,7.0
+tomasz_wakor,Tenet,6.0
+tomasz_wakor,Dunkierka,6.0
+tomasz_wakor,Prestiż,8.0
+tomasz_wakor,Fight Club,10.0
+tomasz_wakor,Kiler,3.0
+tomasz_wakor,Chłopaki nie płaczą,7.0
+tomasz_wakor,E=mc^2,7.0
+tomasz_wakor,House of cards,7.0
+tomasz_wakor,Diuna,6.0
+tomasz_wakor,Mr robot,8.0
+tomasz_wakor,Zielona mila,7.0
+tomasz_wakor,Dwunastu gniewnych ludzi,8.0
+tomasz_wakor,Breaking bad,7.0
+tomasz_wakor,John Wick,7.0
+tomasz_wakor,Fanatyk,8.0
+tomasz_wakor,Parasite,8.0
+tomasz_wakor,Kraina Lodu,7.0
+tomasz_wakor,Gladiator,9.0
+tomasz_wakor,The boys,10.0
+tomasz_wakor,Dzień świra,9.0
+tomasz_wakor,Symetria,9.0
+tomasz_wakor,Pamiętniki wampirów,9.0
+tomasz_wakor,The originals,9.0
+patryk_kosmider,Incepcja,10.0
+patryk_kosmider,Interstellar,10.0
+patryk_kosmider,Wilk z Wall Street,9.0
+patryk_kosmider,Bękarty wojny,10.0
+patryk_kosmider,Django,10.0
+patryk_kosmider,Nienawistna ósemka,7.0
+patryk_kosmider,Pewnego razu w Hollywood,7.0
+patryk_kosmider,Wiedźmin,3.0
+patryk_kosmider,Madame's Web,1.0
+patryk_kosmider,Nosferatu,4.0
+patryk_kosmider,Exit 8,2.0
+patryk_kosmider,Superman,9.0
+patryk_kosmider,Latarnik,10.0
+patryk_kosmider,47 Roninów,8.0
+patryk_kosmider,Jedna wojna po drugiej,5.0
+patryk_kosmider,Wyspa tajemnic,10.0
+patryk_kosmider,John Wick,8.0
+patryk_kosmider,Pulp Fiction,8.0
+patryk_kosmider,Oppenheimer,8.0
+patryk_kosmider,Fight Club,9.0
+patryk_kosmider,Se7en,10.0
+patryk_kosmider,Tenet,5.0
+patryk_kosmider,Fargo,7.0
+patryk_kosmider,Loteria,4.0
+patryk_kosmider,Bullet Train,10.0
+patryk_kosmider,Zodiak,7.0
+patryk_kosmider,Deadpool & Wolverine,8.0
+patryk_kosmider,Blade Runner 2049,8.0
+patryk_kosmider,Diuna 2,8.0
+patryk_kosmider,czerwony kapturek prawdziwa historia,10.0
+patryk_kosmider,Kapitan Ameryka: Nowy wspaniały świat,1.0
+patryk_kosmider,Na noże,8.0
+patryk_kosmider,Kingsman: Tajne służby,7.0
+patryk_kosmider,Smashing Machine,3.0
+patryk_kosmider,Romeo i Julia,3.0
+patryk_kosmider,The boys,10.0
+patryk_kosmider,Trueman show,8.0
+patryk_kosmider,Platforma,5.0
+patryk_kosmider,The electric state,3.0
+patryk_kosmider,Loki,9.0
+patryk_kosmider,Gladiator 2,3.0
+dawid_porozynski,F1,9.0
+dawid_porozynski,Ciche miejsce,2.0
+dawid_porozynski,13 kamer,10.0
+dawid_porozynski,Mów do mnie,8.0
+dawid_porozynski,Breaking bad,10.0
+dawid_porozynski,Fallout,7.0
+dawid_porozynski,South park,8.0
+dawid_porozynski,Wiedżmin,1.0
+dawid_porozynski,Platforma,6.0
+dawid_porozynski,Nosferatu,8.0
+dawid_porozynski,Ucieczka z Alcatraz,8.0
+dawid_porozynski,Dom w głębi lasu,5.0
+dawid_porozynski,Ford v Ferrari,7.0
+dawid_porozynski,Obecność 4,3.0
+dawid_porozynski,Gra o tron,8.0
+dawid_porozynski,Terminator,8.0
+dawid_porozynski,Obcy - 8 pasażer Nostromo,7.0
+dawid_porozynski,Fight Club,9.0
+dawid_porozynski,Taxi driver,9.0
+dawid_porozynski,Kolekcjoner kości,7.0
+dawid_porozynski,Wyspa tajemnic,10.0
+dawid_porozynski,Idiocracy,6.0
+dawid_porozynski,Mr.Robot,8.0
+dawid_porozynski,W lesie dziś nie zaśnie nikt,3.0
+dawid_porozynski,Władca pierścieni,10.0
+dawid_porozynski,Ant-man i osa: Kwantomania,2.0
+dawid_porozynski,Pięć koszmarnych nocy,6.0
+dawid_porozynski,Snowpiercer,6.0
+dawid_porozynski,czerwony kapturek prawdziwa historia,10.0
+dawid_porozynski,Nienawistna ósemka,8.0
+dawid_porozynski,Czarna pantera: Wakanda w moim sercu,2.0
+dawid_porozynski,Glass onion,8.0
+dawid_porozynski,Ja robot,6.0
+dawid_porozynski,Transfomers,6.0
+dawid_porozynski,The walking dead,9.0
+dawid_porozynski,Better call Saul,8.0
+dawid_porozynski,Krzyk,7.0
+dawid_porozynski,Halloween,8.0
+dawid_porozynski,Dzień świra,10.0
+dawid_porozynski,Kac wawa,1.0
+dawid_porozynski,Batman v Superan,6.0
+oskar_skomra,Snowfall,10.0
+oskar_skomra,Wiedźmin,7.0
+oskar_skomra,W garniturach,8.0
+oskar_skomra,Yellowstone,9.0
+oskar_skomra,Breaking bad,9.0
+oskar_skomra,Stranger Things,4.0
+oskar_skomra,The Office,10.0
+oskar_skomra,House of Cards,8.0
+oskar_skomra,Władca Pierścieni,3.0
+oskar_skomra,Wilk z Wall Street,8.0
+oskar_skomra,Split,2.0
+oskar_skomra,Irlandczyk,2.0
+oskar_skomra,Incepcja,9.0
+oskar_skomra,Wyspa Tajemnic,9.0
+oskar_skomra,John Wick,3.0
+oskar_skomra,Sicario,2.0
+oskar_skomra,Uprowadzona,2.0
+oskar_skomra,Pitbull,1.0
+oskar_skomra,Hobbit,7.0
+oskar_skomra,Dexter,2.0
+oskar_skomra,Drive to survive,2.0
+oskar_skomra,The rain,4.0
+oskar_skomra,Wikingowie,2.0
+fabian_fetter,Kiler,9.0
+fabian_fetter,Asterix i Obelix: Misja Kleopatra,10.0
+fabian_fetter,W lesie dziś nie zaśnie nikt,2.0
+fabian_fetter,Friends,8.0
+fabian_fetter,Titanic,8.0
+fabian_fetter,Deadpool,9.0
+fabian_fetter,Trueman Show,9.0
+fabian_fetter,Shrek,8.0
+fabian_fetter,Iluzja,7.0
+fabian_fetter,Lucyfer,8.0
+fabian_fetter,The office,8.0
+fabian_fetter,Skazani na Shawshank,9.0
+fabian_fetter,Dwunastu gniewnych ludzi,10.0
+fabian_fetter,Piętro wyżej,9.0
+fabian_fetter,La casa de papel,7.0
+fabian_fetter,Rick & Morty,9.0
+fabian_fetter,Władca pierścieni,5.0
+fabian_fetter,Se7en,4.0
+fabian_fetter,Życie jest piękne,9.0
+fabian_fetter,Nietykalni,6.0
+fabian_fetter,Nic śmiesznego,5.0
+fabian_fetter,Taxi,7.0
+fabian_fetter,Kobiety mafii,3.0
+fabian_fetter,Zwierzogród,8.0
+fabian_fetter,Breslau,7.0
+fabian_fetter,Ile waży koń trojański?,8.0
+fabian_fetter,Kac Vegas,9.0
+fabian_fetter,Kac Wawa,3.0
+fabian_fetter,Zielona mila,8.0
+fabian_fetter,Asterix i Obelix: W służbie jej królewskiej mości,6.0
+fabian_fetter,Asterix i Obelix: Na olimpiadzie,8.0
+fabian_fetter,Chłopacy z ferajny,8.0
+fabian_fetter,Stranger Things,7.0
+fabian_fetter,1670,8.0
+fabian_fetter,Wednesday,6.0
+fabian_fetter,Fanatyk,5.0
+fabian_fetter,Wszyscy moi przyjaciele nie żyją,3.0
+fabian_fetter,Coco,9.0
+fabian_fetter,Odlot,9.0
+fabian_fetter,Pretty woman,6.0
+fabian_fetter,Narcos,4.0
+fabian_fetter,Forrest Gump,8.0
+michal_bedra,Snatch(Przekręt),10.0
+michal_bedra,Skazani na Showshank,10.0
+michal_bedra,Matrix,9.0
+michal_bedra,Dexter,9.0
+michal_bedra,Przyjaciele,10.0
+michal_bedra,Big Bang Theory,9.0
+michal_bedra,Wyspa Tajemnic,9.0
+michal_bedra,Dzień Świra,9.0
+michal_bedra,Diamentowa Afera,8.0
+michal_bedra,Bad Boys,8.0
+michal_bedra,Gra o tron,9.0
+michal_bedra,Se7en dusz,6.0
+michal_bedra,South Park,8.0
+michal_bedra,Gran Torino,10.0
+michal_bedra,Odlot,8.0
+michal_bedra,Dziennik Bridget Jones,8.0
+michal_bedra,Se7en,9.0
+michal_bedra,Więzień nienawiści,8.0
+michal_bedra,Salt,6.0
+michal_bedra,Pulp Fiction,10.0
+michal_bedra,Milczenie owiec,9.0
+michal_bedra,Zapach kobiety,9.0
+michal_bedra,American Beauty,9.0
+michal_bedra,American Pie,7.0
+michal_bedra,Miś,8.0
+michal_bedra,Podejrzani,9.0
+michal_bedra,Gra,9.0
+michal_bedra,Zabójczy numer,8.0
+michal_bedra,Porachunki,9.0
+michal_bedra,Rock'n'Rolla,9.0
+michal_bedra,Batman początek,8.0
+michal_bedra,Titanic,7.0
+michal_bedra,Breaking Bad,9.0
+michal_bedra,Dr House,9.0
+michal_bedra,Szklana pułapka,7.0
+michal_bedra,To nie tak jak myślisz kotku,3.0
+michal_bedra,Whiplash,8.0
+michal_bedra,Z archiwum X,7.0
+michal_bedra,Mroczny rycerz,8.0
+michal_bedra,Ile waży koń trojański,5.0
+michal_bedra,Killer,7.0
+michal_bedra,Władca Pierścieni,9.0
+michal_bedra,Lśnienie,7.0
+michal_bedra,Zielona mila,8.0
+michal_bedra,Forrest Gump,9.0
+michal_bedra,Król lew,8.0
+michal_bedra,Coco,8.0
+michal_bedra,Kraina Lodu,7.0
+michal_bedra,Gladiator,9.0
+michal_bedra,Ostatni samuraj,8.0
+michal_bedra,Breaveheart,8.0
+szymon_anikiej,Se7en,10.0
+szymon_anikiej,Incepcja,10.0
+szymon_anikiej,Prestiż,10.0
+szymon_anikiej,Deadpool & Wolverine,5.0
+szymon_anikiej,Nosferatu,3.0
+szymon_anikiej,Ojciec chrzestny,4.0
+szymon_anikiej,Superman,3.0
+szymon_anikiej,Fight Club,8.0
+szymon_anikiej,Diuna,5.0
+szymon_anikiej,Ford v Ferrari,8.0
+szymon_anikiej,Tenet,8.0
+szymon_anikiej,Czarne lustro,9.0
+szymon_anikiej,The Walking Dead,4.0
+szymon_anikiej,Batman początek,8.0
+szymon_anikiej,Death Note,9.0
+szymon_anikiej,Good Will Hunting,8.0
+szymon_anikiej,Noc w Muzeum,10.0
+szymon_anikiej,Blade Runner,8.0
+szymon_anikiej,Kevin sam w domu,5.0
+szymon_anikiej,Milczenie owiec,8.0
+szymon_anikiej,Kac Vegas,9.0
+szymon_anikiej,Oppenheimer,7.0
+szymon_anikiej,Na noże,6.0
+szymon_anikiej,Kraina Lodu,3.0
+szymon_anikiej,Casino Royale,9.0
+szymon_anikiej,Koszmar z ulicy wiązów,7.0
+szymon_anikiej,Player One,5.0
+szymon_anikiej,Jumanji: Przygoda w Dżungli,6.0
+szymon_anikiej,Bękarty Wojny,9.0
+szymon_anikiej,Snowpiercer,3.0
+szymon_anikiej,Taxi driver,5.0
+szymon_anikiej,Bohemian Rhapsody,8.0
+szymon_anikiej,Fast and Furious: Tokio drift,10.0
+szymon_anikiej,The Boys,6.0
+szymon_anikiej,Trueman show,8.0
+szymon_anikiej,Rekiny wojny,8.0
+szymon_anikiej,4 pancernych i pies,9.0
+szymon_anikiej,Platforma,4.0
+szymon_anikiej,Parasite,9.0
+szymon_anikiej,Kingsman: Tajne służby,6.0
+szymon_anikiej,Pingwin z madagaskaru,9.0
+konrad_fijalkowski,It,2.0
+konrad_fijalkowski,Chappie,8.0
+konrad_fijalkowski,Nosferatu,2.0
+konrad_fijalkowski,Wilk z Wall Street,7.0
+konrad_fijalkowski,Battleship: Bitwa o Ziemię,9.0
+konrad_fijalkowski,Gran Torino,7.0
+konrad_fijalkowski,Django,9.0
+konrad_fijalkowski,Breaking bad,3.0
+konrad_fijalkowski,Eddington,8.0
+konrad_fijalkowski,Incepcja,8.0
+konrad_fijalkowski,Warcraft: Początek,8.0
+konrad_fijalkowski,Pięćdziesiąt twarzy Greya,1.0
+konrad_fijalkowski,Ford v Ferrari,9.0
+konrad_fijalkowski,Irlandczyk,4.0
+konrad_fijalkowski,Platforma,2.0
+konrad_fijalkowski,Altered Carbon,8.0
+konrad_fijalkowski,Rick & Morty,1.0
+konrad_fijalkowski,Oppenheimer,4.0
+konrad_fijalkowski,Fight Club,10.0
+konrad_fijalkowski,Kompania braci,8.0
+konrad_fijalkowski,Whiplash,3.0
+konrad_fijalkowski,Matrix,5.0
+konrad_fijalkowski,Zwierzogród,9.0
+konrad_fijalkowski,Kiler,7.0
+konrad_fijalkowski,Trueman Show,6.0
+konrad_fijalkowski,Hitler: Narodziny zła,6.0
+konrad_fijalkowski,Circle,9.0
+konrad_fijalkowski,Diuna,10.0
+konrad_fijalkowski,Idiocracy,8.0
+konrad_fijalkowski,Nobody,6.0
+konrad_fijalkowski,The Walking Dead,3.0
+konrad_fijalkowski,Snowpiercer,2.0
+konrad_fijalkowski,Shrek,9.0
+konrad_fijalkowski,Nienawistna ósemka,7.0
+konrad_fijalkowski,Wikingowie,7.0
+konrad_fijalkowski,Dexter,9.0
+konrad_fijalkowski,Symetria,7.0
+ziemowit_orlikowski,Interstellar,10.0
+ziemowit_orlikowski,Silos,8.0
+ziemowit_orlikowski,Silicon Valley,9.0
+ziemowit_orlikowski,Wiedźmin,2.0
+ziemowit_orlikowski,F1,7.0
+ziemowit_orlikowski,Preacher,7.0
+ziemowit_orlikowski,Pułapka,6.0
+ziemowit_orlikowski,Shrek,10.0
+ziemowit_orlikowski,Arcane,4.0
+ziemowit_orlikowski,Kompania braci,9.0
+ziemowit_orlikowski,Titanic,2.0
+ziemowit_orlikowski,jak to łatwo powiedzieć,7.0
+ziemowit_orlikowski,Dżentelmeni,8.0
+ziemowit_orlikowski,Obecność 4,3.0
+ziemowit_orlikowski,Amerykańscy bogowie,5.0
+ziemowit_orlikowski,Przekręt,8.0
+ziemowit_orlikowski,Wilk z Wall Street,10.0
+ziemowit_orlikowski,Dom pełen dynamitu,6.0
+ziemowit_orlikowski,Narcos,9.0
+ziemowit_orlikowski,Deadpool,7.0
+ziemowit_orlikowski,Mr. Robot,7.0
+ziemowit_orlikowski,Blade Runner 2049,3.0
+ziemowit_orlikowski,Andor,9.0
+ziemowit_orlikowski,Diuna,7.0
+ziemowit_orlikowski,Edukacja XD,7.0
+ziemowit_orlikowski,1670.0,8.0
+ziemowit_orlikowski,Fanatyk,9.0
+ziemowit_orlikowski,Free guy,3.0
+ziemowit_orlikowski,Casino Royale,10.0
+ziemowit_orlikowski,Player One,7.0
+ziemowit_orlikowski,Jumanji: Przygoda w Dżungli,7.0
+ziemowit_orlikowski,Ona,2.0
+ziemowit_orlikowski,Rekiny wojny,8.0
+ziemowit_orlikowski,Whiplash,7.0
+ziemowit_orlikowski,Peaky Blinders,10.0
+ziemowit_orlikowski,Bosh,8.0
+ziemowit_orlikowski,Luther,5.0
+ziemowit_orlikowski,The Boys,9.0
+ziemowit_orlikowski,Dobry Omen,6.0
+ziemowit_orlikowski,Blinded by the Lights,9.0
+ziemowit_orlikowski,Grawitacja,3.0
+filip_patula,Incepcja,10.0
+filip_patula,Skazani na Showshank,10.0
+filip_patula,Matrix,10.0
+filip_patula,Interstellar,10.0
+filip_patula,Pulp Fiction,8.0
+filip_patula,Avengers,8.0
+filip_patula,Braveheart,9.0
+filip_patula,Kraina Lodu,7.0
+filip_patula,Django,7.0
+filip_patula,Wszystko wszędzie naraz,8.0
+filip_patula,Terminator 2,8.0
+filip_patula,List do M.,6.0
+filip_patula,Gra o tron,7.0
+filip_patula,Forrest Gump,9.0
+filip_patula,Dawca pamięci,7.0
+filip_patula,La Casa De Papel,8.0
+filip_patula,Peaky Blinders,9.0
+filip_patula,John Wick,8.0
+filip_patula,Czarne lustro,9.0
+filip_patula,13 kamer,7.0
+filip_patula,Władca Pierścieni,8.0
+filip_patula,Stranger Things,8.0
+filip_patula,Saga Zmierzch,2.0
+filip_patula,Trueman Show,9.0
+filip_patula,American Pie,7.0
+filip_patula,Dwunastu gniewnych ludzi,8.0
+filip_patula,Titanic,7.0
+filip_patula,Obcy - 8 pasażer Nostromo,7.0
+filip_patula,Se7en,9.0
+filip_patula,Asterix i Obelix: Misja Kleopatra,7.0
+filip_patula,W lesie dziś nie zaśnie nikt,4.0
+filip_patula,Diuna,8.0
+filip_patula,Taxi driver,8.0
+filip_patula,Kiler,7.0
+filip_patula,Warcraft: Początek,6.0
+filip_patula,Idiocracy,7.0
+filip_patula,Mroczny rycerz,7.0
+filip_patula,Król lew,7.0
+filip_patula,Gladiator,9.0
+filip_patula,Kac Vegas,7.0
+filip_patula,Shrek,8.0
+marek_jenczyk,Shrek,10.0
+marek_jenczyk,Gra o Tron,8.0
+marek_jenczyk,Peaky Blinders,9.0
+marek_jenczyk,Interstellar,9.0
+marek_jenczyk,Deadpool & Wolverine,6.0
+marek_jenczyk,Iron Man,6.0
+marek_jenczyk,Diuna,3.0
+marek_jenczyk,Diuna 2,4.0
+marek_jenczyk,Fight Club,10.0
+marek_jenczyk,Arcane,9.0
+marek_jenczyk,Za duży na bajki,8.0
+marek_jenczyk,Incepcja,9.0
+marek_jenczyk,Wilk z Wall Street,8.0
+marek_jenczyk,Odlot,8.0
+marek_jenczyk,La Mans '66,9.0
+marek_jenczyk,Pulp Fiction,8.0
+marek_jenczyk,Madagaskar,10.0
+marek_jenczyk,Król Lew,10.0
+marek_jenczyk,Avengers,10.0
+marek_jenczyk,Furioza,8.0
+marek_jenczyk,Furioza 2,7.0
+marek_jenczyk,Deadpool,10.0
+marek_jenczyk,Matrix,8.0
+marek_jenczyk,Nietykalni,10.0
+marek_jenczyk,Kilerów dwóch,10.0
+marek_jenczyk,Piep*zyć Mickiewicza,8.0
+marek_jenczyk,Piep*zyć Mickiewicza 2,6.0
+marek_jenczyk,Kac Vegas,7.0
+marek_jenczyk,Dr House,7.0
+marek_jenczyk,1670,9.0
+marek_jenczyk,Bękarty Wojny,9.0
+marek_jenczyk,Titanic,9.0
+marek_jenczyk,"Ja, Robot",8.0
+marek_jenczyk,Dzień Świra,10.0
+marek_jenczyk,e=emc2,10.0
+marek_jenczyk,Poranek kojota,10.0
+marek_jenczyk,Chłopaki nie płaczą,10.0
+marek_jenczyk,Psy,10.0
+marek_jenczyk,4 pancernych i pies,10.0
+marek_jenczyk,Pingwiny z Madagaskaru,10.0
+marek_jenczyk,Gdzie diabeł nie może tam baby pośle,10.0
+jakub_skarzynski,Peaky Blinders,10.0
+jakub_skarzynski,1670,5.0
+jakub_skarzynski,Diuna,9.0
+jakub_skarzynski,Black Mirror,8.0
+jakub_skarzynski,Exit 8,2.0
+jakub_skarzynski,Furia,9.0
+jakub_skarzynski,Sand Castle,7.0
+jakub_skarzynski,Wróg u bram,8.0
+jakub_skarzynski,La Casa De Papel,6.0
+jakub_skarzynski,Król lew,10.0
+jakub_skarzynski,Madagaskar,10.0
+jakub_skarzynski,Interstellar,9.0
+jakub_skarzynski,Obecność,8.0
+jakub_skarzynski,Blair witch project,10.0
+jakub_skarzynski,Piła 3,9.0
+jakub_skarzynski,Obcy,7.0
+jakub_skarzynski,Halloween,6.0
+jakub_skarzynski,Wiedźmin,7.0
+jakub_skarzynski,Furioza,3.0
+jakub_skarzynski,Deadpool & Wolverine,9.0
+jakub_skarzynski,Kraina Lodu,7.0
+jakub_skarzynski,Wilk z Wall Street,9.0
+jakub_skarzynski,Zielona mila,6.0
+jakub_skarzynski,Titanic,8.0
+jakub_skarzynski,Arcane,8.0
+jakub_skarzynski,Zakonnica 2,8.0
+jakub_skarzynski,Koszmar z ulicy wiązów,7.0
+jakub_skarzynski,Kac Vegas,6.0
+jakub_skarzynski,Szklana pułapka,5.0
+jakub_skarzynski,Star Wars,6.0
+jakub_skarzynski,Pretty woman,8.0
+jakub_skarzynski,The wall,3.0
+jakub_skarzynski,Odlot,10.0
+jakub_skarzynski,F1,7.0
+jakub_skarzynski,Bohemian Rhapsody,7.0
+jakub_skarzynski,Fast and Furious: Tokio drift,10.0
+jakub_skarzynski,Diuna 2,9.0
+jakub_skarzynski,Pingwin z madagaskaru,8.0
+jakub_skarzynski,Killer,7.0
+jakub_skarzynski,Tron,7.0
+jakub_skarzynski,Dywizjon 303,6.0
