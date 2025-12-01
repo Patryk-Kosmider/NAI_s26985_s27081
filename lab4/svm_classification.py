@@ -1,6 +1,23 @@
+"""
+Autorzy:
+- Patryk Kośmider
+- Ziemowit Orlikowski
+
+Klasyfikacja danych za pomocą SVM i Drzewa Decyzyjnego
+
+System trenuje i ocenia modele klasyfikacji SVM z różnymi jądrami oraz drzewo decyzyjne. Do klasyfikacji dostępne są
+dwa zbiory danych: wheat_seeds_dataset.csv - https://archive.ics.uci.edu/dataset/236/seeds oraz apple_quality.csv - https://www.kaggle.com/datasets/nelgiriyewithana/apple-quality.
+
+Przygotowanie do uruchomienia - wymagania:
+
+Instalacja pakietów:
+  pip install pandas numpy matplotlib scikit-learn argparse
+"""
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import argparse
 from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
@@ -12,31 +29,31 @@ from sklearn.metrics import (
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
-WHEAT_DATA = "wheat_seeds_dataset.csv"
-COLUMN_NAMES = [
-    "area",
-    "perimeter",
-    "compactness",
-    "length_of_kernel",
-    "width_of_kernel",
-    "asymmetry_coefficient",
-    "length_of_groove",
-    "class",
-]
+global classes
 
 
-def prepare_training_data(file_name):
+def prepare_training_data(file_name, result_column="class", sep="\s+"):
     """
     Przygotowuje dane treningowe i testowe z podanego pliku CSV.
     Wykonuje skalowanie cech i podział na zbiór treningowy/testowy.
-    :param file_name: Nazwa pliku CSV (WHEAT_DATA)
+    :param file_name: Nazwa pliku CSV (DATA_FILE)
+    :param result_column: Nazwa kolumny z etykietami klas
+    :param sep: Separator w pliku CSV
     :return: X_train, X_test, y_train, y_test
     """
 
-    data_df = pd.read_csv(file_name, names=COLUMN_NAMES, sep="\s+", engine="python")
+    data_df = pd.read_csv(file_name, names=COLUMN_NAMES, sep=sep, engine="python")
 
-    X = data_df.drop("class", axis=1)
-    y = data_df["class"].values
+    if result_column == "Quality":
+        mapping = {"good": 0, "bad": 1}
+        y = data_df[result_column].map(mapping).values
+    else:
+        y = data_df[result_column].values
+
+    X = data_df.drop(result_column, axis=1)
+
+    if "A_id" in X.columns:
+        X = X.drop("A_id", axis=1)
 
     scaler = StandardScaler()
     X = scaler.fit_transform(X)
@@ -61,18 +78,17 @@ def train_and_evaluate_model(
     :param model: Model do trenowania (np. svm.SVC())
     :return: Wytrenowany model
     """
-
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
 
-    print(f"\n--- Ocena modelu: {model_description} na zbiorze {WHEAT_DATA} ---")
+    print(f"\n--- Ocena modelu: {model_description} na zbiorze {DATA_FILE} ---")
     print(f"Dokładność: {accuracy_score(y_test, y_pred):.4f}")
     print("\nRaport klasyfikacji:")
-    print(classification_report(y_test, y_pred))
+    print(classification_report(y_test, y_pred, target_names=classes))
 
     cm = confusion_matrix(y_test, y_pred)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
 
     plt.figure(num=f"Macierz Pomyłek - {model_description}", figsize=(7, 7))
 
@@ -97,7 +113,7 @@ def visualize_data(
     :param title: Tytuł wykresu
     """
 
-    plt.figure(num="Wizualizacja Danych - Nasiona Pszenicy", figsize=(8, 6))
+    plt.figure(num="Wizualizacja Danych", figsize=(8, 6))
 
     scatter = plt.scatter(
         X[:, feature_x], X[:, feature_y], c=y, cmap="viridis", edgecolor="k"
@@ -109,28 +125,83 @@ def visualize_data(
     plt.show()
 
 
-X_train, X_test, y_train, y_test = prepare_training_data(file_name=WHEAT_DATA)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Klasyfikacja danych za pomocą SVM i Drzewa Decyzyjnego"
+    )
+    parser.add_argument(
+        "--datafile",
+        type=str,
+        required=True,
+        help="Podaj nazwę pliku z danymi (wheat_seeds_dataset.csv lub diabetes_prediction_dataset.csv)",
+    )
+    args = parser.parse_args()
 
+    DATA_FILE = args.datafile
 
-tree_model = DecisionTreeClassifier(random_state=42)
-train_and_evaluate_model(
-    X_train, X_test, y_train, y_test, "Drzewo Decyzyjne", tree_model
-)
+    if DATA_FILE == "wheat_seeds_dataset.csv":
+        COLUMN_NAMES = [
+            "area",
+            "perimeter",
+            "compactness",
+            "length_of_kernel",
+            "width_of_kernel",
+            "asymmetry_coefficient",
+            "length_of_groove",
+            "class",
+        ]
+        classes = ["Class 1", "Class 2", "Class 3"]
+        result_column = "class"
+        sep = "\s+"
+        feature_x = 0
+        feature_y = 1
+    elif DATA_FILE == "apple_quality.csv":
+        COLUMN_NAMES = [
+            "A_id",
+            "Size",
+            "Weight",
+            "Sweetness",
+            "Crunchiness",
+            "Juiciness",
+            "Ripeness",
+            "Acidity",
+            "Quality",
+        ]
+        classes = ["Good", "Bad"]
+        result_column = "Quality"
+        sep = ","
+        feature_x = 3
+        feature_y = 4
+    else:
+        print(
+            "Nieobsługiwany plik danych. Użyj wheat_seeds_dataset.csv lub apple_quality.csv."
+        )
+        exit(1)
 
-svm_kernels = ["linear", "poly", "rbf", "sigmoid"]
-for svm_kernel in svm_kernels:
-    model_description = f"SVM (Kernel: {svm_kernel})"
-    svm_model = svm.SVC(kernel=svm_kernel, C=1.0, random_state=42)
-    train_and_evaluate_model(
-        X_train, X_test, y_train, y_test, model_description, svm_model
+    X_train, X_test, y_train, y_test = prepare_training_data(
+        file_name=DATA_FILE, result_column=result_column, sep=sep
     )
 
+    tree_model = DecisionTreeClassifier(random_state=42)
+    train_and_evaluate_model(
+        X_train, X_test, y_train, y_test, "Drzewo Decyzyjne", tree_model
+    )
 
-visualize_data(
-    X_train,
-    y_train,
-    feature_x=0,
-    feature_y=1,
-    features_names=COLUMN_NAMES[:-1],
-    title="Wheat Seeds - Area vs Perimeter",
-)
+    svm_kernels = ["linear", "poly", "rbf", "sigmoid"]
+    for svm_kernel in svm_kernels:
+        model_description = f"SVM (Kernel: {svm_kernel})"
+        svm_model = svm.SVC(
+            kernel=svm_kernel, C=1.0, random_state=42, class_weight="balanced"
+        )
+        train_and_evaluate_model(
+            X_train, X_test, y_train, y_test, model_description, svm_model
+        )
+
+    visualize_data(
+        X_train,
+        y_train,
+        feature_x=feature_x,
+        feature_y=feature_y,
+        features_names=COLUMN_NAMES[:-1],
+        title="Wizualizacja danych treningowych",
+    )
