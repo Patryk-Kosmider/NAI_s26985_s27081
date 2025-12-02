@@ -14,7 +14,7 @@ Instalacja pakietów:
   pip install pandas numpy matplotlib scikit-learn argparse
 
 Przykładowe uruchomienie:
-  python svm_classification.py wheat_seeds_dataset.csv
+  python svm_classification.py --datafile wheat_seeds_dataset.csv
 """
 
 import pandas as pd
