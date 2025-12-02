@@ -1,0 +1,133 @@
+--- Ocena modelu: Drzewo Decyzyjne na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.8333
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.64      0.82      0.72        11
+     Class 2       1.00      0.86      0.92        14
+     Class 3       0.88      0.82      0.85        17
+
+    accuracy                           0.83        42
+   macro avg       0.84      0.83      0.83        42
+weighted avg       0.86      0.83      0.84        42
+
+
+--- Ocena modelu: SVM (Linear, C=1.0 - Bazowe) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.9048
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.82      0.82      0.82        11
+     Class 2       1.00      1.00      1.00        14
+     Class 3       0.88      0.88      0.88        17
+
+    accuracy                           0.90        42
+   macro avg       0.90      0.90      0.90        42
+weighted avg       0.90      0.90      0.90        42
+
+
+--- Ocena modelu: SVM (Linear, C=0.01 - Duża regularyzacja) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.8810
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.75      0.82      0.78        11
+     Class 2       1.00      1.00      1.00        14
+     Class 3       0.88      0.82      0.85        17
+
+    accuracy                           0.88        42
+   macro avg       0.88      0.88      0.88        42
+weighted avg       0.88      0.88      0.88        42
+
+
+--- Ocena modelu: SVM (Poly, degree=3 - Bazowe) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.8333
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.62      0.91      0.74        11
+     Class 2       1.00      0.86      0.92        14
+     Class 3       0.93      0.76      0.84        17
+
+    accuracy                           0.83        42
+   macro avg       0.85      0.84      0.83        42
+weighted avg       0.87      0.83      0.84        42
+
+
+--- Ocena modelu: SVM (Poly, degree=5 - Większa złożoność) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.7619
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.52      1.00      0.69        11
+     Class 2       1.00      0.79      0.88        14
+     Class 3       1.00      0.59      0.74        17
+
+    accuracy                           0.76        42
+   macro avg       0.84      0.79      0.77        42
+weighted avg       0.88      0.76      0.77        42
+
+
+--- Ocena modelu: SVM (RBF, gamma=scale - Bazowe) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.9048
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.77      0.91      0.83        11
+     Class 2       1.00      1.00      1.00        14
+     Class 3       0.93      0.82      0.88        17
+
+    accuracy                           0.90        42
+   macro avg       0.90      0.91      0.90        42
+weighted avg       0.91      0.90      0.91        42
+
+
+--- Ocena modelu: SVM (RBF, gamma=0.01 - Gładka granica) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.8810
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.75      0.82      0.78        11
+     Class 2       1.00      1.00      1.00        14
+     Class 3       0.88      0.82      0.85        17
+
+    accuracy                           0.88        42
+   macro avg       0.88      0.88      0.88        42
+weighted avg       0.88      0.88      0.88        42
+
+
+--- Ocena modelu: SVM (Sigmoid, C=1.0 - Bazowe) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.9048
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.82      0.82      0.82        11
+     Class 2       1.00      1.00      1.00        14
+     Class 3       0.88      0.88      0.88        17
+
+    accuracy                           0.90        42
+   macro avg       0.90      0.90      0.90        42
+weighted avg       0.90      0.90      0.90        42
+
+
+--- Ocena modelu: SVM (Sigmoid, C=10.0 - Mniejsza regularyzacja) na zbiorze wheat_seeds_dataset.csv ---
+Dokładność: 0.8571
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+     Class 1       0.73      0.73      0.73        11
+     Class 2       0.93      1.00      0.97        14
+     Class 3       0.88      0.82      0.85        17
+
+    accuracy                           0.86        42
+   macro avg       0.85      0.85      0.85        42
+weighted avg       0.86      0.86      0.86        42

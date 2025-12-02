@@ -1,0 +1,124 @@
+--- Ocena modelu: Drzewo Decyzyjne na zbiorze apple_quality.csv ---
+Dokładność: 0.8100
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.81      0.81      0.81       399
+         Bad       0.81      0.81      0.81       401
+
+    accuracy                           0.81       800
+   macro avg       0.81      0.81      0.81       800
+weighted avg       0.81      0.81      0.81       800
+
+
+--- Ocena modelu: SVM (Linear, C=1.0 - Bazowe) na zbiorze apple_quality.csv ---
+Dokładność: 0.7575
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.75      0.76      0.76       399
+         Bad       0.76      0.75      0.76       401
+
+    accuracy                           0.76       800
+   macro avg       0.76      0.76      0.76       800
+weighted avg       0.76      0.76      0.76       800
+
+
+--- Ocena modelu: SVM (Linear, C=0.01 - Duża regularyzacja) na zbiorze apple_quality.csv ---
+Dokładność: 0.7650
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.76      0.78      0.77       399
+         Bad       0.77      0.75      0.76       401
+
+    accuracy                           0.77       800
+   macro avg       0.77      0.77      0.76       800
+weighted avg       0.77      0.77      0.76       800
+
+
+--- Ocena modelu: SVM (Poly, degree=3 - Bazowe) na zbiorze apple_quality.csv ---
+Dokładność: 0.8175
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.89      0.72      0.80       399
+         Bad       0.77      0.91      0.83       401
+
+    accuracy                           0.82       800
+   macro avg       0.83      0.82      0.82       800
+weighted avg       0.83      0.82      0.82       800
+
+
+--- Ocena modelu: SVM (Poly, degree=5 - Większa złożoność) na zbiorze apple_quality.csv ---
+Dokładność: 0.7712
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.91      0.60      0.72       399
+         Bad       0.70      0.94      0.81       401
+
+    accuracy                           0.77       800
+   macro avg       0.81      0.77      0.76       800
+weighted avg       0.81      0.77      0.76       800
+
+
+--- Ocena modelu: SVM (RBF, gamma=scale - Bazowe) na zbiorze apple_quality.csv ---
+Dokładność: 0.9038
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.90      0.90      0.90       399
+         Bad       0.90      0.91      0.90       401
+
+    accuracy                           0.90       800
+   macro avg       0.90      0.90      0.90       800
+weighted avg       0.90      0.90      0.90       800
+
+
+--- Ocena modelu: SVM (RBF, gamma=0.01 - Gładka granica) na zbiorze apple_quality.csv ---
+Dokładność: 0.8150
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.81      0.82      0.82       399
+         Bad       0.82      0.81      0.81       401
+
+    accuracy                           0.81       800
+   macro avg       0.82      0.82      0.81       800
+weighted avg       0.82      0.81      0.81       800
+
+
+--- Ocena modelu: SVM (Sigmoid, C=1.0 - Bazowe) na zbiorze apple_quality.csv ---
+Dokładność: 0.6062
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.60      0.61      0.61       399
+         Bad       0.61      0.61      0.61       401
+
+    accuracy                           0.61       800
+   macro avg       0.61      0.61      0.61       800
+weighted avg       0.61      0.61      0.61       800
+
+
+--- Ocena modelu: SVM (Sigmoid, C=10.0 - Mniejsza regularyzacja) na zbiorze apple_quality.csv ---
+Dokładność: 0.6062
+
+Raport klasyfikacji:
+              precision    recall  f1-score   support
+
+        Good       0.61      0.60      0.60       399
+         Bad       0.61      0.61      0.61       401
+
+    accuracy                           0.61       800
+   macro avg       0.61      0.61      0.61       800
+weighted avg       0.61      0.61      0.61       800

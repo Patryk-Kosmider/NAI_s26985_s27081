@@ -5,16 +5,18 @@ Autorzy:
 
 Klasyfikacja danych za pomocą SVM i Drzewa Decyzyjnego
 
-System trenuje i ocenia modele klasyfikacji SVM z różnymi jądrami oraz drzewo decyzyjne. Do klasyfikacji dostępne są
+System trenuje i ocenia modele klasyfikacji SVM z różnymi jądrami i parametrami oraz drzewo decyzyjne. Do klasyfikacji dostępne są
 dwa zbiory danych: wheat_seeds_dataset.csv - https://archive.ics.uci.edu/dataset/236/seeds oraz apple_quality.csv - https://www.kaggle.com/datasets/nelgiriyewithana/apple-quality.
 
 Przygotowanie do uruchomienia - wymagania:
 
 Instalacja pakietów:
   pip install pandas numpy matplotlib scikit-learn argparse
+
+Przykładowe uruchomienie:
+  python svm_classification.py wheat_seeds_dataset.csv
 """
 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
@@ -187,15 +189,31 @@ if __name__ == "__main__":
         X_train, X_test, y_train, y_test, "Drzewo Decyzyjne", tree_model
     )
 
-    svm_kernels = ["linear", "poly", "rbf", "sigmoid"]
-    for svm_kernel in svm_kernels:
-        model_description = f"SVM (Kernel: {svm_kernel})"
+    svm_experiments = [
+        {"kernel": "linear", "C": 1.0, "model_description": "SVM (Linear, C=1.0 - Bazowe)"},
+        {"kernel": "linear", "C": 0.01, "model_description": "SVM (Linear, C=0.01 - Duża regularyzacja)"},
+
+        {"kernel": "poly", "C": 1.0, "degree": 3, "model_description": "SVM (Poly, degree=3 - Bazowe)"},
+        {"kernel": "poly", "C": 1.0, "degree": 5, "model_description": "SVM (Poly, degree=5 - Większa złożoność)"},
+
+        {"kernel": "rbf", "C": 1.0, "gamma": 'scale', "model_description": "SVM (RBF, gamma=scale - Bazowe)"},
+        {"kernel": "rbf", "C": 1.0, "gamma": 0.01, "model_description": "SVM (RBF, gamma=0.01 - Gładka granica)"},
+
+        {"kernel": "sigmoid", "C": 1.0, "model_description": "SVM (Sigmoid, C=1.0 - Bazowe)"},
+        {"kernel": "sigmoid", "C": 10.0, "model_description": "SVM (Sigmoid, C=10.0 - Mniejsza regularyzacja)"},
+    ]
+
+    for svm_exp in svm_experiments:
         svm_model = svm.SVC(
-            kernel=svm_kernel, C=1.0, random_state=42, class_weight="balanced"
+            kernel=svm_exp["kernel"],
+            C=svm_exp['C'],
+            gamma=svm_exp.get('gamma', 'scale'),
+            degree=svm_exp.get('degree', 3),
+            random_state = 42,
+            class_weight="balanced",
         )
-        train_and_evaluate_model(
-            X_train, X_test, y_train, y_test, model_description, svm_model
-        )
+
+        train_and_evaluate_model(X_train, X_test, y_train, y_test, svm_exp['model_description'], svm_model)
 
     visualize_data(
         X_train,
