@@ -1,10 +1,39 @@
+"""
+Autorzy:
+- Patryk Kośmider
+- Ziemowit Orlikowski
+
+Sieci neuronowe dla klasyfikacji danych
+
+System pozwala tworzyć dwa rodzaje modeli: do klasyfikacji danych oraz do klasyfikacji zdjęć. Do klasyfikacji danych dostępne są
+dwa zbiory danych: wheat_seeds_dataset.csv - https://archive.ics.uci.edu/dataset/236/seeds oraz music_genre.csv - https://www.kaggle.com/datasets/vicsuperman/prediction-of-music-genre.
+Klasyfikacja zdjęć odbywa się na podstawie zbiorów danych CIFAR-10 (zwierzęta) oraz Fashion MNIST (odzież). Modele są zapisywane lokalnie na dysku w folderze roboczym.
+
+Przygotowanie do uruchomienia - wymagania:
+
+Instalacja pakietów:
+  pip install pandas numpy matplotlib scikit-learn argparse, tensorflow
+
+Przykładowe uruchomienia:
+  python neural_networks.py --model wheat_seeds
+  python neural_networks.py --model music_genre
+  python neural_networks.py --cnn-model animals
+  python neural_networks.py --cnn-model clothes
+# Dla identyfikacji obrazu
+  python identify_image.py --image cat.jpg --model animals_model.keras --type animals
+  python identify_image.py --image t-shirt.jpg --model clothes_model.keras --type clothes
+"""
+
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import argparse
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from prepare_data import (
+    prepare_wheat_data,
+    prepare_fashion_data,
+    prepare_animal_data,
+    prepare_music_data,
+)
 from sklearn.metrics import (
     confusion_matrix,
     accuracy_score,
@@ -12,46 +41,12 @@ from sklearn.metrics import (
     ConfusionMatrixDisplay,
 )
 
-
 DEFAULT_EPOCHS = 10
-global classes
 
 
-def prepare_training_data(file_name, result_column, sep):
-    """
-    Przygotowuje dane treningowe i testowe z podanego pliku CSV.
-    Wykonuje skalowanie cech i podział na zbiór treningowy/testowy.
-    :param file_name: Nazwa pliku CSV (DATA_FILE)
-    :param result_column: Nazwa kolumny z etykietami klas
-    :param sep: Separator w pliku CSV
-    :return: X_train, X_test, y_train, y_test
-    """
-
-    data_df = pd.read_csv(file_name, names=COLUMN_NAMES, sep=sep, engine="python")
-
-    data_df.replace("?", np.nan, inplace=True)
-    data_df.dropna(inplace=True)
-    y_raw = data_df[result_column]
-
-    if y_raw.dtype == object:
-        le = LabelEncoder()
-        y = le.fit_transform(y_raw)
-    else:
-        y = data_df[result_column].values
-        y = y - 1
-    
-    X = data_df.drop(columns=[result_column], axis=1)
-    
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-    return X_train, X_test, y_train, y_test
-
-
-def create_model(input_size, output_classes, hidden_layers=[64, 32]):
+def create_model(
+    input_size, output_classes, hidden_layers=[64, 32], model_name="model"
+):
     """
     Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
     :param input_size: Rozmiar wejścia
@@ -68,7 +63,7 @@ def create_model(input_size, output_classes, hidden_layers=[64, 32]):
             tf.keras.layers.Dense(hidden_layers[1], activation="relu"),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
-        name="model",
+        name=model_name,
     )
 
     model.compile(
@@ -77,7 +72,38 @@ def create_model(input_size, output_classes, hidden_layers=[64, 32]):
 
     return model
 
-def create_cnn_model(input_shape, output_classes):
+
+# to do create bigger model
+def create_bigger_model(
+    input_size, output_classes, hidden_layers=[64, 32], model_name="bigger_model"
+):
+    """
+    Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
+    :param input_size: Rozmiar wejścia
+    :param output_classes: Klasy wyjściowe
+    :param hidden_layers: Warstwa ukryte
+    :return: Model Keras
+    """
+    model = tf.keras.Sequential(
+        [
+            tf.keras.layers.Dense(
+                hidden_layers[0], activation="relu", input_shape=(input_size,)
+            ),
+            tf.keras.layers.Dropout(0.3, name="dropout"),
+            tf.keras.layers.Dense(hidden_layers[1], activation="relu"),
+            tf.keras.layers.Dense(output_classes, activation="softmax"),
+        ],
+        name=model_name,
+    )
+
+    model.compile(
+        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+    )
+
+    return model
+
+
+def create_cnn_model(input_shape, output_classes, model_name="cnn_model"):
     """
     Przygotowanie modelu konwolucyjnej sieci neuronowej (CNN).
     :param input_shape: Kształt wejścia
@@ -86,7 +112,9 @@ def create_cnn_model(input_shape, output_classes):
     """
     model = tf.keras.Sequential(
         [
-            tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=input_shape),
+            tf.keras.layers.Conv2D(
+                32, (3, 3), activation="relu", input_shape=input_shape
+            ),
             tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
             tf.keras.layers.MaxPooling2D((2, 2)),
@@ -94,7 +122,7 @@ def create_cnn_model(input_shape, output_classes):
             tf.keras.layers.Dense(64, activation="relu"),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
-        name = "cnn_model"
+        name=model_name,
     )
 
     model.compile(
@@ -103,7 +131,10 @@ def create_cnn_model(input_shape, output_classes):
 
     return model
 
-def train_and_evaluate_model(X_train, X_test, y_train, y_test, model, epochs=DEFAULT_EPOCHS):
+
+def train_and_evaluate_model(
+    X_train, X_test, y_train, y_test, model, classes, epochs=DEFAULT_EPOCHS
+):
     """
     Trenuje i ocenia podany model na danych treningowych i testowych.
     Wyświetla dokładność, raport klasyfikacji oraz macierz pomyłek.
@@ -132,12 +163,12 @@ def train_and_evaluate_model(X_train, X_test, y_train, y_test, model, epochs=DEF
     plt.title(f"Macierz Pomyłek")
     plt.show()
 
-    model.save(f"{model.name}_model.keras")
+    model.save(f"{model.name}.keras")
 
     return model, accuracy, history, loss
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Trenowanie i zapisywanie modeli neuronowych"
     )
@@ -156,101 +187,92 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.model:
-        if args.model == "wheat_seeds":
-            DATA_FILE = "wheat_seeds_dataset.csv"
-            COLUMN_NAMES = [
-                "area",
-                "perimeter",
-                "compactness",
-                "length_of_kernel",
-                "width_of_kernel",
-                "asymmetry_coefficient",
-                "length_of_groove",
-                "class",
-            ]
-
-            classes = ["Class 1", "Class 2", "Class 3"]
-            result_column = "class"
-            sep = "\s+"
-            feature_x = 0
-            feature_y = 1
-        elif args.model == "music_genre":
-            # TO DO naprawić formatowanie danych bo to maniana jest
-            DATA_FILE = "music_genre.csv"
-            COLUMN_NAMES = [
-                "instance_id",
-                "artist_name",
-                "track_name",
-                "popularity",
-                "acousticness",
-                "danceability",
-                "duration_ms",
-                "energy",
-                "instrumentalness",
-                "key",
-                "liveness",
-                "loudness",
-                "mode",
-                "speechiness",
-                "tempo",
-                "obtained_date",
-                "valence",
-                "music_genre",
-            ]
-            classes = [
-                "Electronic",
-                "Anime",
-                "Jazz",
-                "Alternative",
-                "Country",
-                "Rap",
-                "Blues",
-                "Rock",
-                "Classical",
-                "Hip-Hop",
-            ]
-            result_column = ["music_genre", "artist_name", "track_name", "popularity", "instance_id", "obtained_date"]
-            sep = ","
-            feature_x = 0
-            feature_y = 1
-        else:
-            print("Proszę podać poprawny argument --model lub --cnn-model.")
-            exit(1)
-
-        X_train, X_test, y_train, y_test = prepare_training_data(
-            DATA_FILE, result_column, sep
+        datasets = {
+            "wheat_seeds": {
+                "file": "wheat_seeds_dataset.csv",
+                "classes": ["Class 1", "Class 2", "Class 3"],
+                "result_column": "class",
+                "model_name": "wheat_seeds_model",
+                "prepare_fn": prepare_wheat_data,
+                "models_fn": [create_model, create_bigger_model],
+            },
+            "music_genre": {
+                "file": "music_genre.csv",
+                "classes": [
+                    "Electronic",
+                    "Anime",
+                    "Jazz",
+                    "Alternative",
+                    "Country",
+                    "Rap",
+                    "Blues",
+                    "Rock",
+                    "Classical",
+                    "Hip-Hop",
+                ],
+                "result_column": "music_genre",
+                "model_name": "music_genre_model",
+                "prepare_fn": prepare_music_data,
+                "models_fn": [create_model],
+            },
+        }
+        config = datasets[args.model]
+        classes = config["classes"]
+        X_train, X_test, y_train, y_test = config["prepare_fn"](
+            config["file"], config["result_column"]
         )
-        train_and_evaluate_model(
-            X_train,
-            X_test,
-            y_train,
-            y_test,
-            create_model(X_train.shape[1], len(classes)),
-        )
+        for model_fn in config["models_fn"]:
+            model = model_fn(
+                X_train.shape[1],
+                len(config["classes"]),
+                model_name=config["model_name"],
+            )
+            train_and_evaluate_model(X_train, X_test, y_train, y_test, model, classes)
+
     elif args.cnn_model:
-        if args.cnn_model == "animals":
-            classes = [
-                "cat",
-                "bird",
-                "dog",
-                "frog",
-                "horse",
-                "deer"
-            ]
-        elif args.cnn_model == "clothes":
-            classes = [
-                "T-shirt/top",
-                "Trouser",
-                "Pullover",
-                "Dress",
-                "Coat",
-                "Sandal",
-                "Shirt",
-                "Sneaker",
-                "Bag",
-                "Ankle boot",
-            ]
+        cnn_datasets = {
+            "animals": {
+                "classes": ["bird", "cat", "deer", "dog", "frog", "horse"],
+                "dataset": tf.keras.datasets.cifar10,
+                "img_height": 32,
+                "img_width": 32,
+                "model_name": "animals_model",
+                "prepare_fn": prepare_animal_data,
+            },
+            "clothes": {
+                "classes": [
+                    "T-shirt/top",
+                    "Trouser",
+                    "Pullover",
+                    "Dress",
+                    "Coat",
+                    "Sandal",
+                    "Shirt",
+                    "Sneaker",
+                    "Bag",
+                    "Ankle boot",
+                ],
+                "dataset": tf.keras.datasets.fashion_mnist,
+                "img_height": 28,
+                "img_width": 28,
+                "model_name": "clothes_model",
+                "prepare_fn": prepare_fashion_data,
+            },
+        }
+        config = cnn_datasets[args.cnn_model]
+        classes = config["classes"]
+        X_train, X_test, y_train, y_test = config["prepare_fn"](
+            config["dataset"], config["img_height"], config["img_width"]
+        )
+        model = create_cnn_model(
+            X_train.shape[1:], len(config["classes"]), model_name=config["model_name"]
+        )
+        train_and_evaluate_model(X_train, X_test, y_train, y_test, model, classes)
+
     else:
         print("Proszę podać poprawny argument --model lub --cnn-model.")
         exit(1)
 
+
+if __name__ == "__main__":
+    main()
