@@ -1,226 +1,256 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+import tensorflow as tf
+import argparse
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import (
+    confusion_matrix,
+    accuracy_score,
+    classification_report,
+    ConfusionMatrixDisplay,
+)
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.datasets import cifar10, fashion_mnist
 
 DEFAULT_EPOCHS = 10
+global classes
 
 
-def create_mlp_model(input_dim, output_classes, hidden_layers=[64, 32]):
+def prepare_training_data(file_name, result_column, sep):
+    """
+    Przygotowuje dane treningowe i testowe z podanego pliku CSV.
+    Wykonuje skalowanie cech i podział na zbiór treningowy/testowy.
+    :param file_name: Nazwa pliku CSV (DATA_FILE)
+    :param result_column: Nazwa kolumny z etykietami klas
+    :param sep: Separator w pliku CSV
+    :return: X_train, X_test, y_train, y_test
+    """
+
+    data_df = pd.read_csv(file_name, names=COLUMN_NAMES, sep=sep, engine="python")
+
+    data_df.replace("?", np.nan, inplace=True)
+    data_df.dropna(inplace=True)
+    y_raw = data_df[result_column]
+
+    if y_raw.dtype == object:
+        le = LabelEncoder()
+        y = le.fit_transform(y_raw)
+    else:
+        y = data_df[result_column].values
+        y = y - 1
+    
+    X = data_df.drop(columns=[result_column], axis=1)
+    
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
+    return X_train, X_test, y_train, y_test
+
+
+def create_model(input_size, output_classes, hidden_layers=[64, 32]):
     """
     Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
-    :param input_dim: Rozmiar wejścia
+    :param input_size: Rozmiar wejścia
     :param output_classes: Klasy wyjściowe
     :param hidden_layers: Warstwa ukryte
     :return: Model Keras
     """
-    model = Sequential()
-    model.add(Dense(hidden_layers[0], activation="relu", input_shape=(input_dim,)))
-    for units in hidden_layers[1:]:
-        model.add(Dense(units, activation="relu"))
-    model.add(Dense(output_classes, activation="softmax"))
+    model = tf.keras.Sequential(
+        [
+            tf.keras.layers.Dense(
+                hidden_layers[0], activation="relu", input_shape=(input_size,)
+            ),
+            tf.keras.layers.Dropout(0.3, name="dropout"),
+            tf.keras.layers.Dense(hidden_layers[1], activation="relu"),
+            tf.keras.layers.Dense(output_classes, activation="softmax"),
+        ],
+        name="model",
+    )
 
     model.compile(
-        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
     )
+
     return model
 
-
-def create_cnn_model(input_shape, output_classes, filters=[32, 64]):
+def create_cnn_model(input_shape, output_classes):
     """
     Przygotowanie modelu konwolucyjnej sieci neuronowej (CNN).
-    :param input_shape: Rozmiar wejścia
+    :param input_shape: Kształt wejścia
     :param output_classes: Klasy wyjściowe
-    :param filters: Ilość filtrów w warstwach konwolucyjnych
     :return: Model Keras
     """
-    model = Sequential()
-
-    model.add(
-        Conv2D(
-            filters[0],
-            (3, 3),
-            activation="relu",
-            padding="same",
-            input_shape=input_shape,
-        )
+    model = tf.keras.Sequential(
+        [
+            tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=input_shape),
+            tf.keras.layers.MaxPooling2D((2, 2)),
+            tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+            tf.keras.layers.MaxPooling2D((2, 2)),
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(64, activation="relu"),
+            tf.keras.layers.Dense(output_classes, activation="softmax"),
+        ],
+        name = "cnn_model"
     )
-    model.add(MaxPooling2D((2, 2)))
-
-    for num_filters in filters[1:]:
-        model.add(Conv2D(num_filters, (3, 3), activation="relu", padding="same"))
-        model.add(MaxPooling2D((2, 2)))
-
-    model.add(Flatten())
-    model.add(Dense(128, activation="relu"))
-    model.add(Dropout(0.5))
-    model.add(Dense(output_classes, activation="softmax"))
 
     model.compile(
-        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
     )
+
     return model
 
-
-def plot_confusion_matrix(model, X_test, y_test_true, title, class_names=None):
+def train_and_evaluate_model(X_train, X_test, y_train, y_test, model, epochs=DEFAULT_EPOCHS):
     """
-    Wyświetla macierz pomyłek oraz raport klasyfikacji dla podanego modelu i danych testowych.
-    :param model: Model Keras
-    :param X_test: Zbiór testowy (cechy)
-    :param y_test_true: Zbiór testowy (prawdziwe etykiety)
-    :param title: Tytuł wykresu
-    :param class_names: Nazwy klas
-    :return: Wyświetlona macierz pomyłek i raport klasyfikacji
+    Trenuje i ocenia podany model na danych treningowych i testowych.
+    Wyświetla dokładność, raport klasyfikacji oraz macierz pomyłek.
+    :param X_train: Dane treningowe (cechy)
+    :param X_test: Dane testowe (cechy)
+    :param y_train: Etykiety treningowe
+    :param y_test: Etykiety testowe
+    :param model: Model do trenowania
+    :return: Wytrenowany model, dokładność, historia treningu, strata
     """
-    y_pred_probs = model.predict(X_test)
-    y_pred = np.argmax(y_pred_probs, axis=1)
+    history = model.fit(X_train, y_train, epochs=epochs, batch_size=32, verbose=1)
+    loss, accuracy = model.evaluate(X_test, y_test)
+    y_pred = np.argmax(model.predict(X_test), axis=1)
 
-    if len(y_test_true.shape) > 1 and y_test_true.shape[1] > 1:
-        y_test_true = np.argmax(y_test_true, axis=1)
+    print(f"Dokładność: {accuracy_score(y_test, y_pred):.4f}")
+    print("\nRaport klasyfikacji:")
+    print(classification_report(y_test, y_pred, target_names=classes))
 
-    cm = confusion_matrix(y_test_true, y_pred)
+    cm = confusion_matrix(y_test, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
 
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(
-        cm,
-        annot=True,
-        fmt="d",
-        cmap="Blues",
-        xticklabels=class_names if class_names else "auto",
-        yticklabels=class_names if class_names else "auto",
-    )
-    plt.ylabel("Rzeczywista Klasa")
-    plt.xlabel("Przewidziana Klasa")
-    plt.title(title)
+    plt.figure(num=f"Macierz Pomyłek", figsize=(7, 7))
+
+    disp.plot(ax=plt.gca(), cmap=plt.cm.Blues)
+
+    plt.title(f"Macierz Pomyłek")
     plt.show()
 
-    print("\n--- Raport Klasyfikacji ---")
-    print(classification_report(y_test_true, y_pred, target_names=class_names))
+    model.save(f"{model.name}_model.keras")
 
-
-def run_wheat_seed(epochs=20):
-    """
-    Trenuje i ocenia model MLP na zbiorze danych Wheat Seed.
-    :param epochs: Liczba epok treningu
-    :return: Wytrenowany model Keras
-    """
-    df = pd.read_csv("wheat_seeds_dataset.csv", sep="\s+", header=None)
-    X = df.iloc[:, :-1].values
-    y = df.iloc[:, -1].values - 1
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42
-    )
-
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-
-    y_train_enc = to_categorical(y_train, 3)
-    y_test_enc = to_categorical(y_test, 3)
-
-    model = create_mlp_model(
-        input_dim=X_train.shape[1], output_classes=3, hidden_layers=[64, 32]
-    )
-    model.fit(X_train, y_train_enc, epochs=epochs, batch_size=16, verbose=0)
-
-    loss, acc = model.evaluate(X_test, y_test_enc, verbose=0)
-    print(f"[WYNIK] Wheat Seed Accuracy: {acc * 100:.2f}%")
-    return model
-
-
-def run_cifar10(epochs=5):
-    """
-    Trenuje i ocenia model CNN na zbiorze danych CIFAR-10.
-    :param epochs: Liczba epok treningu
-    :return: Wytrenowany model Keras, dane testowe (X_test, y_test)
-    """
-    (X_train, y_train), (X_test, y_test) = cifar10.load_data()
-    X_train = X_train.astype("float32") / 255.0
-    X_test = X_test.astype("float32") / 255.0
-
-    y_train_enc = to_categorical(y_train, 10)
-    y_test_enc = to_categorical(y_test, 10)
-
-    model = create_cnn_model(
-        input_shape=(32, 32, 3), output_classes=10, filters=[32, 64]
-    )
-
-    print("Trenowanie CNN...")
-    model.fit(
-        X_train,
-        y_train_enc,
-        epochs=epochs,
-        batch_size=64,
-        validation_data=(X_test, y_test_enc),
-        verbose=1,
-    )
-
-    loss, acc = model.evaluate(X_test, y_test_enc, verbose=0)
-    print(f"[WYNIK] CIFAR-10 Accuracy: {acc * 100:.2f}%")
-    return model, X_test, y_test_enc
-
-
-def run_fashion_mnist(epochs=5):
-    """
-    Trenuje i ocenia mały i duży model MLP na zbiorze danych Fashion MNIST.
-    :param epochs: Liczba epok treningu
-    :return: Model duży Keras, dane testowe (X_test, y_test)
-    """
-    (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
-    X_train = X_train.astype("float32") / 255.0
-    X_test = X_test.astype("float32") / 255.0
-
-    X_train_flat = X_train.reshape(-1, 28 * 28)
-    X_test_flat = X_test.reshape(-1, 28 * 28)
-
-    y_train_enc = to_categorical(y_train, 10)
-    y_test_enc = to_categorical(y_test, 10)
-
-    print("Trenowanie małego modelu MLP")
-    model_small = create_mlp_model(input_dim=784, output_classes=10, hidden_layers=[64])
-    model_small.fit(X_train_flat, y_train_enc, epochs=epochs, verbose=0)
-    _, acc_small = model_small.evaluate(X_test_flat, y_test_enc, verbose=0)
-
-    print("Trenowanie dużego modelu MLP")
-    model_large = create_mlp_model(
-        input_dim=784, output_classes=10, hidden_layers=[256, 128, 64]
-    )
-    model_large.fit(X_train_flat, y_train_enc, epochs=epochs, verbose=0)
-    _, acc_large = model_large.evaluate(X_test_flat, y_test_enc, verbose=0)
-
-    print(
-        f"[WYNIK] Mały MLP: {acc_small * 100:.2f}% | Duży MLP: {acc_large * 100:.2f}%"
-    )
-
-    return model_large, X_test_flat, y_test_enc
+    return model, accuracy, history, loss
 
 
 if __name__ == "__main__":
-    model_wheat = run_wheat_seed()
-    model_cifar, X_test_c, y_test_c = run_cifar10(epochs=5)
-    model_fashion, X_test_f, y_test_f = run_fashion_mnist(epochs=5)
-
-    fashion_labels = [
-        "T-shirt/top",
-        "Trouser",
-        "Pullover",
-        "Dress",
-        "Coat",
-        "Sandal",
-        "Shirt",
-        "Sneaker",
-        "Bag",
-        "Ankle boot",
-    ]
-    plot_confusion_matrix(
-        model_fashion, X_test_f, y_test_f, "Fashion MNIST (Duży MLP)", fashion_labels
+    parser = argparse.ArgumentParser(
+        description="Trenowanie i zapisywanie modeli neuronowych"
     )
+    parser.add_argument(
+        "--model",
+        choices=["wheat_seeds", "music_genre"],
+        required=False,
+        help="Podaj dataset do trenowania modelu (wheat_seeds lub music_genre)",
+    )
+    parser.add_argument(
+        "--cnn-model",
+        choices=["animals", "clothes"],
+        required=False,
+        help="Podaj dataset do trenowania modelu CNN (animals lub clothes)",
+    )
+    args = parser.parse_args()
+
+    if args.model:
+        if args.model == "wheat_seeds":
+            DATA_FILE = "wheat_seeds_dataset.csv"
+            COLUMN_NAMES = [
+                "area",
+                "perimeter",
+                "compactness",
+                "length_of_kernel",
+                "width_of_kernel",
+                "asymmetry_coefficient",
+                "length_of_groove",
+                "class",
+            ]
+
+            classes = ["Class 1", "Class 2", "Class 3"]
+            result_column = "class"
+            sep = "\s+"
+            feature_x = 0
+            feature_y = 1
+        elif args.model == "music_genre":
+            # TO DO naprawić formatowanie danych bo to maniana jest
+            DATA_FILE = "music_genre.csv"
+            COLUMN_NAMES = [
+                "instance_id",
+                "artist_name",
+                "track_name",
+                "popularity",
+                "acousticness",
+                "danceability",
+                "duration_ms",
+                "energy",
+                "instrumentalness",
+                "key",
+                "liveness",
+                "loudness",
+                "mode",
+                "speechiness",
+                "tempo",
+                "obtained_date",
+                "valence",
+                "music_genre",
+            ]
+            classes = [
+                "Electronic",
+                "Anime",
+                "Jazz",
+                "Alternative",
+                "Country",
+                "Rap",
+                "Blues",
+                "Rock",
+                "Classical",
+                "Hip-Hop",
+            ]
+            result_column = ["music_genre", "artist_name", "track_name", "popularity", "instance_id", "obtained_date"]
+            sep = ","
+            feature_x = 0
+            feature_y = 1
+        else:
+            print("Proszę podać poprawny argument --model lub --cnn-model.")
+            exit(1)
+
+        X_train, X_test, y_train, y_test = prepare_training_data(
+            DATA_FILE, result_column, sep
+        )
+        train_and_evaluate_model(
+            X_train,
+            X_test,
+            y_train,
+            y_test,
+            create_model(X_train.shape[1], len(classes)),
+        )
+    elif args.cnn_model:
+        if args.cnn_model == "animals":
+            classes = [
+                "cat",
+                "bird",
+                "dog",
+                "frog",
+                "horse",
+                "deer"
+            ]
+        elif args.cnn_model == "clothes":
+            classes = [
+                "T-shirt/top",
+                "Trouser",
+                "Pullover",
+                "Dress",
+                "Coat",
+                "Sandal",
+                "Shirt",
+                "Sneaker",
+                "Bag",
+                "Ankle boot",
+            ]
+    else:
+        print("Proszę podać poprawny argument --model lub --cnn-model.")
+        exit(1)
+
