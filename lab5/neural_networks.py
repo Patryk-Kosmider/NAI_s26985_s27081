@@ -45,22 +45,22 @@ DEFAULT_EPOCHS = 10
 
 
 def create_model(
-    input_size, output_classes, hidden_layers=[64, 32], model_name="model"
+    input_size, output_classes, dense_units=[64, 32], model_name="model"
 ):
     """
     Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
     :param input_size: Rozmiar wejścia
     :param output_classes: Klasy wyjściowe
-    :param hidden_layers: Warstwa ukryte
+    :param dense_units: Ilość neuronów w warstwach ukrytych
     :return: Model Keras
     """
     model = tf.keras.Sequential(
         [
             tf.keras.layers.Dense(
-                hidden_layers[0], activation="relu", input_shape=(input_size,)
+                dense_units[0], activation="relu", input_shape=(input_size,)
             ),
             tf.keras.layers.Dropout(0.3, name="dropout"),
-            tf.keras.layers.Dense(hidden_layers[1], activation="relu"),
+            tf.keras.layers.Dense(dense_units[1], activation="relu"),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
         name=model_name,
@@ -75,22 +75,22 @@ def create_model(
 
 # to do create bigger model
 def create_bigger_model(
-    input_size, output_classes, hidden_layers=[64, 32], model_name="bigger_model"
+    input_size, output_classes, dense_units=[64, 32], model_name="bigger_model"
 ):
     """
     Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
     :param input_size: Rozmiar wejścia
     :param output_classes: Klasy wyjściowe
-    :param hidden_layers: Warstwa ukryte
+    :param dense_units: Ilość neuronów w warstwach ukrytych
     :return: Model Keras
     """
     model = tf.keras.Sequential(
         [
             tf.keras.layers.Dense(
-                hidden_layers[0], activation="relu", input_shape=(input_size,)
+                dense_units[0], activation="relu", input_shape=(input_size,)
             ),
             tf.keras.layers.Dropout(0.3, name="dropout"),
-            tf.keras.layers.Dense(hidden_layers[1], activation="relu"),
+            tf.keras.layers.Dense(dense_units[1], activation="relu"),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
         name=model_name,
