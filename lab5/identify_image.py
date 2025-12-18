@@ -25,15 +25,15 @@ def preprocess_image(image_name, model_type="clothes"):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", type=str)
-    parser.add_argument("--model", type=str, default="cnn_model.keras")
+    parser.add_argument("--image", type=str, default="cat.jpg")
+    parser.add_argument("--model", type=str, default="animals_model.keras")
     parser.add_argument(
-        "--type", choices=["animals", "clothes"], default="conv_model.keras"
+        "--type", choices=["animals", "clothes"], default="animals"
     )
     args = parser.parse_args()
     if args.type == "animals":
         CLASS_NAMES = ["bird", "cat", "deer", "dog", "frog", "horse"]
-    else:
+    elif args.type == "clothes":
         CLASS_NAMES = [
             "T-shirt/top",
             "Trouser",
