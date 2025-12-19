@@ -6,11 +6,10 @@ from sklearn.model_selection import train_test_split
 
 def prepare_wheat_data(file_name, result_column):
     """
-    Przygotowuje dane treningowe i testowe z podanego pliku CSV.
+    Przygotowuje dane treningowe i testowe z CSV.
     Wykonuje skalowanie cech i podział na zbiór treningowy/testowy.
-    :param file_name: Nazwa pliku CSV (DATA_FILE)
+    :param file_name: Nazwa pliku CSV
     :param result_column: Nazwa kolumny z etykietami klas
-    :param COLUMN_NAMES: Nazwy kolumn w pliku CSV
     :return: X_train, X_test, y_train, y_test
     """
     COLUMN_NAMES = [
@@ -41,11 +40,11 @@ def prepare_wheat_data(file_name, result_column):
 
 def prepare_music_data(file_name, result_column):
     """
-    Przygotowuje dane treningowe i testowe z podanego pliku CSV.
+    Przygotowuje dane treningowe i testowe z CSV.
     Wykonuje skalowanie cech i podział na zbiór treningowy/testowy.
-    :param file_name: Nazwa pliku CSV (DATA_FILE)
+    Usuwa niepotrzebne kolumny i podmienia wartości kategoryczne na numeryczne.
+    :param file_name: Nazwa pliku CSV
     :param result_column: Nazwa kolumny z etykietami klas
-    :param sep: Separator w pliku CSV
     :return: X_train, X_test, y_train, y_test
     """
     data_df = pd.read_csv(file_name, sep=",", on_bad_lines="skip")
@@ -53,7 +52,7 @@ def prepare_music_data(file_name, result_column):
         "instance_id",
         "artist_name",
         "track_name",
-        "popularity",
+        "duration_ms",
         "obtained_date",
     ]
     data_df = data_df.drop(
@@ -109,7 +108,8 @@ def prepare_animal_data(dataset, img_height, img_width):
     """
     Przygotowuje dane treningowe i testowe dla CNN.
     Normalizuje obrazy i dzieli na zbiory treningowe/testowe.
-    :param dataset: Zbiór danych (np. Fashion MNIST)
+    Mapuje klasy zwierząt do nowych etykiet.
+    :param dataset: Zbiór danych
     :param img_height: Wysokość obrazu
     :param img_width: Szerokość obrazu
     :return: X_train, X_test, y_train, y_test

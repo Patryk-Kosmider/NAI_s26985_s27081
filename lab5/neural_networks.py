@@ -41,17 +41,14 @@ from sklearn.metrics import (
     ConfusionMatrixDisplay,
 )
 
-DEFAULT_EPOCHS = 10
 
-
-def create_model(
-    input_size, output_classes, dense_units=[64, 32], model_name="model"
-):
+def create_model(input_size, output_classes, dense_units=[64, 32], model_name="model"):
     """
-    Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
+    Przygotowanie modelu do identyfikacji klas.
     :param input_size: Rozmiar wejścia
     :param output_classes: Klasy wyjściowe
     :param dense_units: Ilość neuronów w warstwach ukrytych
+    :param model_name: Nazwa modelu
     :return: Model Keras
     """
     model = tf.keras.Sequential(
@@ -59,7 +56,7 @@ def create_model(
             tf.keras.layers.Dense(
                 dense_units[0], activation="relu", input_shape=(input_size,)
             ),
-            tf.keras.layers.Dropout(0.3, name="dropout"),
+            tf.keras.layers.Dropout(0.3),
             tf.keras.layers.Dense(dense_units[1], activation="relu"),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
@@ -74,13 +71,14 @@ def create_model(
 
 
 def create_model_two(
-    input_size, output_classes, dense_units=[64, 32, 16], model_name="bigger_model"
+    input_size, output_classes, dense_units=[64, 32, 16], model_name="wiekszy_model"
 ):
     """
-    Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
+    Przygotowanie modelu do identyfikacji klas.
     :param input_size: Rozmiar wejścia
     :param output_classes: Klasy wyjściowe
     :param dense_units: Ilość neuronów w warstwach ukrytych
+    :param model_name: Nazwa modelu
     :return: Model Keras
     """
     model = tf.keras.Sequential(
@@ -88,11 +86,11 @@ def create_model_two(
             tf.keras.layers.Dense(
                 dense_units[0], activation="relu", input_shape=(input_size,)
             ),
-            tf.keras.layers.Dropout(0.3, name="dropout"),
+            tf.keras.layers.Dropout(0.3),
             tf.keras.layers.Dense(dense_units[1], activation="relu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(dense_units[2], activation="relu"),
-            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dropout(0.1),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
         name=model_name,
@@ -110,6 +108,7 @@ def create_cnn_model(input_shape, output_classes, model_name="cnn_model"):
     Przygotowanie modelu konwolucyjnej sieci neuronowej (CNN).
     :param input_shape: Kształt wejścia
     :param output_classes: Klasy wyjściowe
+    :param model_name: Nazwa modelu
     :return: Model Keras
     """
     model = tf.keras.Sequential(
@@ -135,7 +134,7 @@ def create_cnn_model(input_shape, output_classes, model_name="cnn_model"):
 
 
 def train_and_evaluate_model(
-    X_train, X_test, y_train, y_test, model, classes, epochs=DEFAULT_EPOCHS
+    X_train, X_test, y_train, y_test, model, classes, epochs=10
 ):
     """
     Trenuje i ocenia podany model na danych treningowych i testowych.
@@ -145,6 +144,8 @@ def train_and_evaluate_model(
     :param y_train: Etykiety treningowe
     :param y_test: Etykiety testowe
     :param model: Model do trenowania
+    :param classes: Klasy do identyfikacji
+    :params epochs: Liczba epok (domyślnie 10)
     :return: Wytrenowany model, dokładność, historia treningu, strata
     """
     history = model.fit(X_train, y_train, epochs=epochs, batch_size=32, verbose=1)
@@ -158,11 +159,11 @@ def train_and_evaluate_model(
     cm = confusion_matrix(y_test, y_pred)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
 
-    plt.figure(num=f"Macierz Pomyłek", figsize=(7, 7))
+    plt.figure(num=f"Macierz Pomyłek - {model.name}", figsize=(7, 7))
 
     disp.plot(ax=plt.gca(), cmap=plt.cm.Blues)
 
-    plt.title(f"Macierz Pomyłek")
+    plt.title(f"Macierz Pomyłek - {model.name}")
     plt.show()
 
     model.save(f"{model.name}.keras")
@@ -194,7 +195,7 @@ def main():
                 "file": "wheat_seeds_dataset.csv",
                 "classes": ["Class 1", "Class 2", "Class 3"],
                 "result_column": "class",
-                "model_name": "wheat_seeds_model",
+                "model_name": ["wheat_seeds_model", "wheat_seeds_model_two"],
                 "prepare_fn": prepare_wheat_data,
                 "models_fn": [create_model, create_model_two],
             },
@@ -213,7 +214,7 @@ def main():
                     "Hip-Hop",
                 ],
                 "result_column": "music_genre",
-                "model_name": "music_genre_model",
+                "model_name": ["music_genre_model"],
                 "prepare_fn": prepare_music_data,
                 "models_fn": [create_model],
             },
@@ -223,11 +224,11 @@ def main():
         X_train, X_test, y_train, y_test = config["prepare_fn"](
             config["file"], config["result_column"]
         )
-        for model_fn in config["models_fn"]:
+        for i, model_fn in enumerate(config["models_fn"]):
             model = model_fn(
                 X_train.shape[1],
                 len(config["classes"]),
-                model_name=config["model_name"],
+                model_name=config["model_name"][i],
             )
             train_and_evaluate_model(X_train, X_test, y_train, y_test, model, classes)
 

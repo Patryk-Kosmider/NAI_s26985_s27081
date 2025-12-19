@@ -5,6 +5,13 @@ from PIL import Image
 
 
 def preprocess_image(image_name, model_type="clothes"):
+    """
+    Wstępne przetwarzanie obrazu do identyfikacji.
+
+    :param image_name: Nazwa pliku obrazu
+    :param model_type: Typ modelu ("animals" lub "clothes")
+    :return: Przetworzony obraz
+    """
     if model_type == "animals":
         img = Image.open(image_name).convert("RGB")
         img = img.resize((32, 32))
@@ -27,9 +34,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", type=str, default="cat.jpg")
     parser.add_argument("--model", type=str, default="animals_model.keras")
-    parser.add_argument(
-        "--type", choices=["animals", "clothes"], default="animals"
-    )
+    parser.add_argument("--type", choices=["animals", "clothes"], default="animals")
     args = parser.parse_args()
     if args.type == "animals":
         CLASS_NAMES = ["bird", "cat", "deer", "dog", "frog", "horse"]
