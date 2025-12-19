@@ -4,14 +4,14 @@ Porównanie wyników klasyfikacji zbioru wheat_seeds_dataset.csv uzyskanych przy
 Wyniki klasyfikacji nasion pszenicy uzyskane przy pomocy klasycznego algorytmu **SVM** (z poprzednich zajęć) oraz **Sieci Neuronowych**.
 Do porównania wybrano najlepsze konfiguracje obu podejść.
 
-| Model   | Konfiguracja                                                                                                                                                                                              | Dokładność |
-|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| **SVM** | **Linear (C=1.0)**                                                                                                                                                                                        | **0.9048** |
-| **SVM** | **Linear, (C=0.01)**                                                                                                                                                                                      | **0.9048** |
-| **SVM** | **Poly, (degree=3)**                                                                                                                                                                                      | **0.8333** |
-| **SVM** | **RBF, (gamma=scale)**                                                                                                                                                                                    | **0.9048** |
-| **SVM** | **Sigmoid, (C=1.0)**                                                                                                                                                                                      | **0.9048** |
-| **MLP** | **warstwa wejściowa (7 cech) <br/>warstwa ukryta (128 neuronów) + Dropout (0.3) <br/>warstwa ukryta (64 neurony) + Dropout (0.2) <br/>warstwa ukryta (32 neurony) + Dropout (0.1) <br/>warstwa wyjściowa (3 klasy, softmax)** | **0.9048** |
+| Model   | Konfiguracja                                                                                                                                                                                                                 | Dokładność |
+|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| **SVM** | **Linear (C=1.0)**                                                                                                                                                                                                           | **0.9048** |
+| **SVM** | **Linear, (C=0.01)**                                                                                                                                                                                                         | **0.9048** |
+| **SVM** | **Poly, (degree=3)**                                                                                                                                                                                                         | **0.8333** |
+| **SVM** | **RBF, (gamma=scale)**                                                                                                                                                                                                       | **0.9048** |
+| **SVM** | **Sigmoid, (C=1.0)**                                                                                                                                                                                                         | **0.9048** |
+| **MLP** | **warstwa wejściowa (7 cech) <br/>warstwa ukryta (64 neuronów) + Dropout (0.3) <br/>warstwa ukryta (32 neurony) + Dropout (0.2) <br/>warstwa ukryta (16 neurony) + Dropout (0.1) <br/>warstwa wyjściowa (3 klasy, softmax)** | **0.9048** |
 
 ### Wnioski z porównania:
 * Zarówno większość modeli SVM, jak i Model MLP większy osiągnęły identyczny wynik. Każdy z tych modeli pomylił się tylko w 4 przypadkach, z wyjątkiem SVM z jądrem wielomianowym (Poly), który popełnił aż 7 błędów.

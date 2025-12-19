@@ -11,9 +11,9 @@ Porównanie dwóch wersji modelów MLP dla zbioru wheat_seeds_dataset.csv
 
 **Model większy (`wheat_seeds_model_two`):**
 * warstwa wejściowa (7 cech)
-* warstwa ukryta (128 neuronów) + Dropout (0.3)
-* warstwa ukryta (64 neurony) + Dropout (0.2)
-* warstwa ukryta (32 neurony) + Dropout (0.1)
+* warstwa ukryta (64 neuronów) + Dropout (0.3)
+* warstwa ukryta (32 neurony) + Dropout (0.2)
+* warstwa ukryta (16 neurony) + Dropout (0.1)
 * warstwa wyjściowa (3 klasy, softmax)
 
 
