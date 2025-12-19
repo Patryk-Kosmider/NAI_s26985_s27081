@@ -73,9 +73,8 @@ def create_model(
     return model
 
 
-# to do create bigger model
-def create_bigger_model(
-    input_size, output_classes, dense_units=[64, 32], model_name="bigger_model"
+def create_model_two(
+    input_size, output_classes, dense_units=[64, 32, 16], model_name="bigger_model"
 ):
     """
     Przygotowanie modelu w pełni połączonej sieci neuronowej (MLP).
@@ -91,6 +90,9 @@ def create_bigger_model(
             ),
             tf.keras.layers.Dropout(0.3, name="dropout"),
             tf.keras.layers.Dense(dense_units[1], activation="relu"),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(dense_units[2], activation="relu"),
+            tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(output_classes, activation="softmax"),
         ],
         name=model_name,
@@ -194,7 +196,7 @@ def main():
                 "result_column": "class",
                 "model_name": "wheat_seeds_model",
                 "prepare_fn": prepare_wheat_data,
-                "models_fn": [create_model, create_bigger_model],
+                "models_fn": [create_model, create_model_two],
             },
             "music_genre": {
                 "file": "music_genre.csv",

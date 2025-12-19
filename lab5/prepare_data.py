@@ -110,6 +110,8 @@ def prepare_animal_data(dataset, img_height, img_width):
     Przygotowuje dane treningowe i testowe dla CNN.
     Normalizuje obrazy i dzieli na zbiory treningowe/testowe.
     :param dataset: Zbiór danych (np. Fashion MNIST)
+    :param img_height: Wysokość obrazu
+    :param img_width: Szerokość obrazu
     :return: X_train, X_test, y_train, y_test
     """
 
