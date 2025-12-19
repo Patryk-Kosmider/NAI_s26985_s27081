@@ -88,10 +88,8 @@ def anti_recommend_movies(df, user_corr, target_user, n_recommendations=5):
     similar_users = get_similar_users(user_corr, target_user)
     cluster_movies = df[df["user"].isin(similar_users.index)]
     user_movies = df[df["user"] == target_user]["movie"].tolist()
-
     # Filmy, których target_user nie widział
     recommendations = cluster_movies[~cluster_movies["movie"].isin(user_movies)]
-
     # Średnia ważona ocena wg korelacji
     recommendations = (
         recommendations.groupby("movie")
@@ -102,7 +100,6 @@ def anti_recommend_movies(df, user_corr, target_user, n_recommendations=5):
         )
         .reset_index(name="weighted_rating")
     )
-
     recommendations = recommendations.sort_values(
         by="weighted_rating", ascending=True
     ).head(n_recommendations)
