@@ -115,7 +115,6 @@ def initialize_source(source):
     landmarker = vision.PoseLandmarker.create_from_options(options)
     return cap, landmarker
 
-
 def run_vision(source):
     """
     Główna pętla przetwarzania wideo.
@@ -183,7 +182,8 @@ def run_vision(source):
                     )
                     continue
 
-                is_player = current_role == "player" or current_role == "unknown"
+                is_player = current_role == "player"
+                is_unknown = current_role == "unknown"
 
                 nose_y = nose.y * h_img
                 margin = body_h * 0.1
@@ -225,7 +225,7 @@ def run_vision(source):
                     )
 
                 # ELIMINACJA ZA RUCH
-                elif is_moving:
+                elif is_moving and is_player:
                     hx, hy = int(nose.x * w_img), int(nose.y * h_img)
                     draw_crosshair(frame, hx, hy)
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
@@ -241,8 +241,17 @@ def run_vision(source):
 
                 # ZWYKŁY GRACZ
                 elif is_player:
+                    hx, hy = int(nose.x * w_img), int(nose.y * h_img)
+                    draw_crosshair(frame, hx, hy, color=(0, 255, 0))
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 1)
                     cv2.putText(frame, "GRACZ", (x1, y1 - 10), 0, 0.7, (0, 255, 0), 2)
+                
+                # NIEZNANY
+                elif is_unknown:
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 1)
+                    cv2.putText(
+                        frame, "NIEZNANY", (x1, y1 - 10), 0, 0.7, (255, 0, 0), 2
+                    )
 
         cv2.imshow("Green light - red light", frame)
         prev_gray = curr_gray.copy()
